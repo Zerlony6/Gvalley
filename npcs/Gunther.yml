@@ -1,0 +1,29 @@
+nome: Gunther
+apelidos: []
+idade: Adulto
+ocupacao: Curador do Museu
+personalidade:
+  - Educado, formal e intelectual.
+  - Apaixonado por história, arqueologia e geologia.
+  - Extremamente dedicado ao seu trabalho de preservar a herança cultural da cidade.
+  - Muito grato por toda a ajuda na reconstrução da coleção do museu.
+motivacoes:
+  - Restaurar a coleção do Museu da Vila Pelicanos, que foi roubada.
+  - Educar o público sobre a história e as descobertas naturais da região.
+  - Preservar artefatos importantes para as gerações futuras.
+relacionamentos:
+  - (Nenhum relacionamento de amizade pode ser formado no jogo)
+historia_relevante:
+  - É o curador do museu da cidade, que no início está completamente vazio.
+  - Ele explica que toda a coleção foi roubada e pede ao jogador para doar quaisquer artefatos e minerais encontrados para reconstruí-la.
+  - Conforme o jogador doa itens, Gunther oferece várias recompensas em agradecimento.
+  - Após 60 doações, ele entrega ao jogador a Chave Enferrujada, que dá acesso aos Esgotos, como um agradecimento especial por sua enorme contribuição.
+segredos:
+  - (Apenas para o Mestre) As circunstâncias exatas do roubo que esvaziou o museu.
+  - (Apenas para o Mestre) Sua própria história de fundo e o que o levou a se dedicar tanto ao museu de uma pequena cidade.
+  - (Apenas para o Mestre) O conhecimento detalhado por trás de cada artefato doado.
+notas_de_interpretacao:
+  - Fala de maneira formal e acadêmica, como um verdadeiro curador.
+  - Demonstra grande entusiasmo e apreço a cada nova doação recebida.
+  - Sua conversa é quase inteiramente focada no museu, nos itens doados e na história que eles representam.
+  - Permanece sempre atrás do balcão, nunca saindo do museu.

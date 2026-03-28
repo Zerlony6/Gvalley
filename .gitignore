@@ -1,0 +1,14 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Não subir configurações pessoais com chaves de API
+config.json
+
+# Não subir memórias geradas durante testes
+npcs/*_memoria.json
