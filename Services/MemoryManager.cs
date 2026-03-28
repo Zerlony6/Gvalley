@@ -22,7 +22,11 @@ namespace GeminiMod.Services
         public string GetNpcProfile(string npcName)
         {
             string profilePath = Path.Combine(this.Helper.DirectoryPath, "npcs", $"{npcName}.yml");
-            return File.Exists(profilePath) ? File.ReadAllText(profilePath) : "Personalidade padrão.";
+            if (File.Exists(profilePath))
+                return File.ReadAllText(profilePath);
+            
+            this.Monitor.Log($"Aviso: Perfil YAML não encontrado para {npcName} em {profilePath}. Usando fallback.", LogLevel.Warn);
+            return $"Você é {npcName}, um habitante de Stardew Valley. Responda de forma amigável e imersiva.";
         }
 
         public List<MemoryEntry> GetNpcMemory(string npcName)

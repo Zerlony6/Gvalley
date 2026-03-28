@@ -10,7 +10,6 @@ namespace GeminiMod.Models
         public string LocalLlamaUrl { get; set; } = "http://localhost:8080";
         public bool AllowNSFW { get; set; } = false;
         public float Temperature { get; set; } = 0.7f;
-        public int MaxTokens { get; set; } = 200;
     }
 
     public interface IGenericModConfigMenuApi
