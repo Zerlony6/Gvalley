@@ -35,94 +35,10 @@ namespace GeminiMod
             this.AiService = new AiService(this.Config, this.Monitor);
             this.MemoryManager = new MemoryManager(this.Helper, this.Monitor);
 
-            // Integração com o Generic Mod Config Menu (GMCM)
-            helper.Events.GameLoop.GameLaunched += (sender, e) =>
-            {
-                var configMenu = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
-                if (configMenu != null)
-                {
-                    configMenu.Register(
-                        mod: this.ModManifest,
-                        reset: () => this.Config = new ModConfig(),
-                        save: () => this.Helper.WriteConfig(this.Config)
-                    );
-
-                    configMenu.AddTextOption(
-                        mod: this.ModManifest,
-                        name: () => "Chave da API Gemini",
-                        getValue: () => this.Config.ApiKey,
-                        setValue: value => this.Config.ApiKey = value
-                    );
-
-                    configMenu.AddTextOption(
-                        mod: this.ModManifest,
-                        name: () => "Modelo da IA",
-                        tooltip: () => "Ex: gemini-3-flash-preview, etc.",
-                        getValue: () => this.Config.Model,
-                        setValue: value => this.Config.Model = value,
-                        allowedValues: new[] { 
-                            "gemini-3-flash-preview", 
-                            "gemini-3.1-flash-lite-preview", 
-                            "gemini-2.5-flash", 
-                            "gemini-2.5-flash-lite",
-                            "Local Llama (llama.cpp)"
-                        }
-                    );
-
-                    configMenu.AddTextOption(
-                        mod: this.ModManifest,
-                        name: () => "URL Local (Llama)",
-                        tooltip: () => "URL do servidor llama.cpp (ex: http://localhost:8080)",
-                        getValue: () => this.Config.LocalLlamaUrl,
-                        setValue: value => this.Config.LocalLlamaUrl = value
-                    );
-
-                    configMenu.AddSectionTitle(this.ModManifest, () => "Personalização da IA");
-
-                    configMenu.AddBoolOption(
-                        mod: this.ModManifest,
-                        name: () => "Permitir Conteúdo NSFW",
-                        tooltip: () => "Habilita ou desabilita interações de cunho adulto/explícito.",
-                        getValue: () => this.Config.AllowNSFW,
-                        setValue: value => this.Config.AllowNSFW = value
-                    );
-
-                    configMenu.AddNumberOption(
-                        mod: this.ModManifest,
-                        name: () => "Criatividade (Temperature)",
-                        tooltip: () => "Valores altos (ex: 0.9) tornam a IA mais criativa, valores baixos (ex: 0.2) mais objetiva.",
-                        getValue: () => this.Config.Temperature,
-                        setValue: value => this.Config.Temperature = value,
-                        min: 0.1f, max: 1.5f, interval: 0.1f
-                    );
-
-                    configMenu.AddNumberOption(
-                        mod: this.ModManifest,
-                        name: () => "Limite de Resposta (Tokens)",
-                        tooltip: () => "Controla o tamanho máximo da resposta gerada pela IA.",
-                        getValue: () => this.Config.MaxTokens,
-                        setValue: value => this.Config.MaxTokens = value,
-                        min: 50, max: 1000, interval: 10
-                    );
-                }
-            };
-
-            // Garante a existência das pastas necessárias
-            string npcsPath = Path.Combine(this.Helper.DirectoryPath, "npcs");
-            string portraitPath = Path.Combine(this.Helper.DirectoryPath, "portrait");
-            Directory.CreateDirectory(npcsPath);
-            Directory.CreateDirectory(portraitPath);
-
-            // Tenta carregar o retrato do jogador
-            string playerPngPath = Path.Combine(portraitPath, "player.png");
-            if (File.Exists(playerPngPath))
-            {
-                try {
-                    this.PlayerPortrait = Texture2D.FromFile(Game1.graphics.GraphicsDevice, playerPngPath);
-                } catch (Exception ex) {
-                    this.Monitor.Log($"Erro ao carregar portrait/player.png: {ex.Message}", LogLevel.Error);
-                }
-            }
+            this.InitializeDirectoires();
+            this.LoadPlayerPortrait();
+            
+            helper.Events.GameLoop.GameLaunched += (sender, e) => this.RegisterConfigMenu();
 
             // Registra o comando no console/chat do jogo
             helper.ConsoleCommands.Add("ask_gemini", "Envia uma mensagem para o Gemini. Uso: ask_gemini <mensagem>", this.OnAskGemini);
@@ -133,6 +49,95 @@ namespace GeminiMod
                 while (this.MainThreadActions.TryDequeue(out Action action))
                     action();
             };
+        }
+
+        private void InitializeDirectoires()
+        {
+            Directory.CreateDirectory(Path.Combine(this.Helper.DirectoryPath, "npcs"));
+            Directory.CreateDirectory(Path.Combine(this.Helper.DirectoryPath, "portrait"));
+        }
+
+        private void LoadPlayerPortrait()
+        {
+            string playerPngPath = Path.Combine(this.Helper.DirectoryPath, "portrait", "player.png");
+            if (File.Exists(playerPngPath))
+            {
+                try {
+                    this.PlayerPortrait = Texture2D.FromFile(Game1.graphics.GraphicsDevice, playerPngPath);
+                } catch (Exception ex) {
+                    this.Monitor.Log($"Erro ao carregar portrait/player.png: {ex.Message}", LogLevel.Error);
+                }
+            }
+        }
+
+        private void RegisterConfigMenu()
+        {
+            var configMenu = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (configMenu == null) return;
+
+            configMenu.Register(
+                mod: this.ModManifest,
+                reset: () => this.Config = new ModConfig(),
+                save: () => this.Helper.WriteConfig(this.Config)
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "Chave da API Gemini",
+                getValue: () => this.Config.ApiKey,
+                setValue: value => this.Config.ApiKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "Modelo da IA",
+                tooltip: () => "Ex: gemini-3-flash-preview, etc.",
+                getValue: () => this.Config.Model,
+                setValue: value => this.Config.Model = value,
+                allowedValues: new[] { 
+                    "gemini-3-flash-preview", 
+                    "gemini-3.1-flash-lite-preview", 
+                    "gemini-2.5-flash", 
+                    "gemini-2.5-flash-lite",
+                    "Local Llama (llama.cpp)"
+                }
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "URL Local (Llama)",
+                tooltip: () => "URL do servidor llama.cpp (ex: http://localhost:8080)",
+                getValue: () => this.Config.LocalLlamaUrl,
+                setValue: value => this.Config.LocalLlamaUrl = value
+            );
+
+            configMenu.AddSectionTitle(this.ModManifest, () => "Personalização da IA");
+
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => "Permitir Conteúdo NSFW",
+                tooltip: () => "Habilita ou desabilita interações de cunho adulto/explícito.",
+                getValue: () => this.Config.AllowNSFW,
+                setValue: value => this.Config.AllowNSFW = value
+            );
+
+            configMenu.AddNumberOption(
+                mod: this.ModManifest,
+                name: () => "Criatividade (Temperature)",
+                tooltip: () => "Valores altos (ex: 0.9) tornam a IA mais criativa, valores baixos (ex: 0.2) mais objetiva.",
+                getValue: () => this.Config.Temperature,
+                setValue: value => this.Config.Temperature = value,
+                min: 0.1f, max: 1.5f, interval: 0.1f
+            );
+
+            configMenu.AddNumberOption(
+                mod: this.ModManifest,
+                name: () => "Limite de Resposta (Tokens)",
+                tooltip: () => "Controla o tamanho máximo da resposta gerada pela IA.",
+                getValue: () => this.Config.MaxTokens,
+                setValue: value => this.Config.MaxTokens = value,
+                min: 50, max: 1000, interval: 10
+            );
         }
 
         /// <summary>Captura o estado atual do jogo para dar contexto à IA.</summary>
