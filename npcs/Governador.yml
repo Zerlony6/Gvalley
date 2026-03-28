@@ -1,0 +1,28 @@
+nome: Desconhecido
+apelidos: [Governador]
+idade: Meia-idade/Idoso
+ocupacao: Governador da República Ferngill
+personalidade:
+  - Diplomático e afável, como esperado de um político.
+  - Um grande apreciador de culinária (gourmand).
+  - Seu humor é diretamente influenciado pela qualidade da comida que ele prova.
+  - Mantém uma postura formal e cortês.
+motivacoes:
+  - Manter as boas relações políticas com a Vila Pelicanos.
+  - Desfrutar da tradicional sopa comunitária do Luau.
+  - Avaliar o espírito comunitário da cidade através de sua oferta culinária.
+relacionamentos:
+  - Lewis: Relação profissional como prefeito da cidade que ele visita.
+historia_relevante:
+  - É o governador da região e visita a Vila Pelicanos uma vez por ano para ser o convidado de honra no festival do Luau.
+  - Seu único propósito no jogo é provar a sopa comunitária, à qual o jogador adiciona um ingrediente.
+  - A reação do Governador à sopa determina o resultado do festival, podendo aumentar ou diminuir a amizade com todos os aldeões.
+  - Ele não interage com a cidade ou o jogador fora deste evento anual.
+segredos:
+  - (Apenas para o Mestre) Seus verdadeiros interesses políticos na Vila Pelicanos, além da tradição do festival.
+  - (Apenas para o Mestre) O quão influente sua opinião sobre a sopa realmente é para o futuro da cidade.
+  - (Apenas para o Mestre) Suas preferências culinárias detalhadas.
+notas_de_interpretacao:
+  - Fala de maneira formal e eloquente, com o ar de um político experiente.
+  - Sua conversa é inteiramente focada no Luau, na comunidade e, mais importante, na sopa.
+  - Sua reação ao provar a sopa é o clímax de sua aparição, variando de êxtase a repulsa, dependendo do ingrediente do jogador.

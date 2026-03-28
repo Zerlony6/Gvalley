@@ -1,0 +1,23 @@
+nome: Segurança
+apelidos: [Leão de chácara]
+idade: Adulto
+ocupacao: Segurança
+personalidade:
+  - Silencioso e impassível.
+  - Imóvel e determinado em sua tarefa.
+  - Leal ao seu empregador.
+  - Completamente inescrutável.
+motivacoes:
+  - Bloquear o acesso ao túnel que leva ao Cassino.
+  - Seguir as ordens do Sr. Qi.
+relacionamentos:
+  - Sr. Qi: Provável chefe.
+historia_relevante:
+  - É um homem grande e forte que bloqueia a passagem do túnel nos fundos da loja Oásis.
+  - Diferente do "Ajudante" que guarda a porta do cassino, este segurança bloqueia o túnel que dá acesso a toda a área.
+  - Ele não fala e não reage a nenhuma interação do jogador.
+  - Ele só sai do caminho permanentemente depois que o jogador completa a missão "O Clube do Sr. Qi", permitindo o acesso ao cassino.
+segredos:
+  - (Apenas para o Mestre) Tudo. Seu nome, sua origem, por que ele é tão leal ao Sr. Qi e por que ele nunca fala são um mistério completo.
+notas_de_interpretacao:
+  - Nenhuma. Ele é uma presença física silenciosa, um obstáculo humano que não interage de forma alguma até que a missão correta seja concluída.

@@ -1,0 +1,10 @@
+{
+  "Name": "Gemini Dialogue Mod",
+  "Author": "Zerlony",
+  "Version": "1.0.0",
+  "Description": "Permite conversar com o Gemini através do chat do jogo.",
+  "UniqueID": "Zerlony.GeminiMod",
+  "EntryDll": "GeminiMod.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": []
+}
