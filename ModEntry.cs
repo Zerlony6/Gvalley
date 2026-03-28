@@ -35,7 +35,7 @@ namespace GeminiMod
             this.AiService = new AiService(this.Config, this.Monitor);
             this.MemoryManager = new MemoryManager(this.Helper, this.Monitor);
 
-            this.InitializeDirectoires();
+            this.InitializeDirectories();
             this.LoadPlayerPortrait();
             
             helper.Events.GameLoop.GameLaunched += (sender, e) => this.RegisterConfigMenu();
@@ -51,7 +51,7 @@ namespace GeminiMod
             };
         }
 
-        private void InitializeDirectoires()
+        private void InitializeDirectories()
         {
             Directory.CreateDirectory(Path.Combine(this.Helper.DirectoryPath, "npcs"));
             Directory.CreateDirectory(Path.Combine(this.Helper.DirectoryPath, "portrait"));
@@ -128,15 +128,6 @@ namespace GeminiMod
                 getValue: () => this.Config.Temperature,
                 setValue: value => this.Config.Temperature = value,
                 min: 0.1f, max: 1.5f, interval: 0.1f
-            );
-
-            configMenu.AddNumberOption(
-                mod: this.ModManifest,
-                name: () => "Limite de Resposta (Tokens)",
-                tooltip: () => "Controla o tamanho máximo da resposta gerada pela IA.",
-                getValue: () => this.Config.MaxTokens,
-                setValue: value => this.Config.MaxTokens = value,
-                min: 50, max: 1000, interval: 10
             );
         }
 
