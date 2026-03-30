@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework;
@@ -300,15 +301,37 @@ namespace GeminiMod
                     sb.AppendLine($"### HISTÓRICO RECENTE:\n{(string.IsNullOrWhiteSpace(memoryHistory) ? "Nenhuma conversa anterior." : memoryHistory)}");
                     sb.AppendLine($"### CONTEXTO ATUAL:\n{gameContext}");
                     sb.AppendLine($"\n### O JOGADOR DIZ: \"{playerText}\"");
-                    sb.AppendLine("\nResponda ao jogador de forma imersiva e curta.");
+
+                    sb.AppendLine("\nResponda OBRIGATORIAMENTE seguindo este formato JSON:");
+                    sb.AppendLine("{");
+                    sb.AppendLine("  \"fala\": \"sua resposta aqui\",");
+                    sb.AppendLine("  \"pontos\": valor_inteiro_entre_-30_e_30");
+                    sb.AppendLine("}");
+                    sb.AppendLine("\nAnalise o sentimento da fala do jogador para com seu personagem:");
+                    sb.AppendLine("- Se for um elogio, presente verbal ou algo que agrada seu perfil: pontos positivos (ex: 10 a 20).");
+                    sb.AppendLine("- Se for um insulto, grosseria ou algo que fere seus valores: pontos negativos (ex: -10 a -20).");
+                    sb.AppendLine("- Se for neutro ou apenas uma pergunta comum: 0.");
 
                     if (!this.Config.AllowNSFW)
                         sb.AppendLine("REGRA CRÍTICA: Não gere conteúdo sexualmente explícito, pornográfico ou NSFW.");
 
                     string finalPrompt = sb.ToString();
-                    this.Monitor.Log($"Prompt final construído para {npc.Name}:\n{finalPrompt}", LogLevel.Debug);
+                    string rawResponse = await this.AiService.GetAiResponse(finalPrompt);
+                    
+                    string response = "";
+                    int friendshipChange = 0;
 
-                    string response = await this.AiService.GetAiResponse(finalPrompt);
+                    try {
+                        // Extrai o JSON da resposta (caso a IA coloque markdown)
+                        var match = Regex.Match(rawResponse, @"\{.*\}", RegexOptions.Singleline);
+                        string jsonPart = match.Success ? match.Value : rawResponse;
+                        var data = JsonConvert.DeserializeAnonymousType(jsonPart, new { fala = "", pontos = 0 });
+                        response = data.fala;
+                        friendshipChange = data.pontos;
+                    } catch {
+                        // Fallback caso a IA falhe no formato JSON
+                        response = rawResponse;
+                    }
 
                     // Limpa a resposta para o formato do jogo
                     response = Regex.Replace(response, @"\*+", "");
@@ -331,6 +354,12 @@ namespace GeminiMod
                         if (Context.IsWorldReady)
                         {
                             // Fecha a caixa de "pensando" e abre o diálogo real com retrato
+                            if (friendshipChange != 0)
+                            {
+                                Game1.player.changeFriendship(friendshipChange, npc);
+                                this.Monitor.Log($"Amizade com {npc.Name} alterada em {friendshipChange} pontos.", LogLevel.Info);
+                            }
+
                             Game1.activeClickableMenu = null;
                             npc.CurrentDialogue.Push(new Dialogue(npc, null, response));
                             Game1.drawDialogue(npc);
