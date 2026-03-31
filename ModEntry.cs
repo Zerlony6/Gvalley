@@ -86,55 +86,55 @@ namespace GeminiMod
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
-                name: () => "Chave da API Gemini",
+                name: () => this.Helper.Translation.Get("config.api-key-gemini.name"),
                 getValue: () => this.Config.ApiKey,
                 setValue: value => this.Config.ApiKey = value
             );
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
-                name: () => "Chave da API OpenAI",
+                name: () => this.Helper.Translation.Get("config.api-key-openai.name"),
                 getValue: () => this.Config.OpenAiApiKey,
                 setValue: value => this.Config.OpenAiApiKey = value
             );
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
-                name: () => "Chave da API OpenRouter",
+                name: () => this.Helper.Translation.Get("config.api-key-openrouter.name"),
                 getValue: () => this.Config.OpenRouterApiKey,
                 setValue: value => this.Config.OpenRouterApiKey = value
             );
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
-                name: () => "Modelo da IA",
-                tooltip: () => "O ID do modelo. Ex: gpt-4o, gemini-1.5-flash, meta-llama/llama-3-70b-instruct",
+                name: () => this.Helper.Translation.Get("config.model.name"),
+                tooltip: () => this.Helper.Translation.Get("config.model.tooltip"),
                 getValue: () => this.Config.Model,
                 setValue: value => this.Config.Model = value
             );
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
-                name: () => "URL Local (Llama)",
-                tooltip: () => "URL do servidor llama.cpp (ex: http://localhost:8080)",
+                name: () => this.Helper.Translation.Get("config.local-url.name"),
+                tooltip: () => this.Helper.Translation.Get("config.local-url.tooltip"),
                 getValue: () => this.Config.LocalLlamaUrl,
                 setValue: value => this.Config.LocalLlamaUrl = value
             );
 
-            configMenu.AddSectionTitle(this.ModManifest, () => "Personalização da IA");
+            configMenu.AddSectionTitle(this.ModManifest, () => this.Helper.Translation.Get("config.section-customization.title"));
 
             configMenu.AddBoolOption(
                 mod: this.ModManifest,
-                name: () => "Permitir Conteúdo NSFW",
-                tooltip: () => "Habilita ou desabilita interações de cunho adulto/explícito.",
+                name: () => this.Helper.Translation.Get("config.nsfw.name"),
+                tooltip: () => this.Helper.Translation.Get("config.nsfw.tooltip"),
                 getValue: () => this.Config.AllowNSFW,
                 setValue: value => this.Config.AllowNSFW = value
             );
 
             configMenu.AddNumberOption(
                 mod: this.ModManifest,
-                name: () => "Criatividade (Temperature)",
-                tooltip: () => "Valores altos (ex: 0.9) tornam a IA mais criativa, valores baixos (ex: 0.2) mais objetiva.",
+                name: () => this.Helper.Translation.Get("config.temperature.name"),
+                tooltip: () => this.Helper.Translation.Get("config.temperature.tooltip"),
                 getValue: () => this.Config.Temperature,
                 setValue: value => this.Config.Temperature = value,
                 min: 0.1f, max: 1.5f, interval: 0.1f

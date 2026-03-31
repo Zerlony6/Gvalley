@@ -1,0 +1,14 @@
+{
+    "config.api-key-gemini.name": "Gemini API Key",
+    "config.api-key-openai.name": "OpenAI API Key",
+    "config.api-key-openrouter.name": "OpenRouter API Key",
+    "config.model.name": "AI Model",
+    "config.model.tooltip": "The model ID. Ex: gpt-4o, gemini-1.5-flash, meta-llama/llama-3-70b-instruct",
+    "config.local-url.name": "Local URL (Llama)",
+    "config.local-url.tooltip": "URL for the llama.cpp server (ex: http://localhost:8080)",
+    "config.section-customization.title": "AI Customization",
+    "config.nsfw.name": "Allow NSFW Content",
+    "config.nsfw.tooltip": "Enables or disables adult/explicit interactions.",
+    "config.temperature.name": "Creativity (Temperature)",
+    "config.temperature.tooltip": "High values (ex: 0.9) make the AI more creative, low values (ex: 0.2) more objective."
+}
