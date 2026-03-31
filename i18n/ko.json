@@ -1,0 +1,14 @@
+{
+    "config.api-key-gemini.name": "Gemini API 키",
+    "config.api-key-openai.name": "OpenAI API 키",
+    "config.api-key-openrouter.name": "OpenRouter API 키",
+    "config.model.name": "AI 모델",
+    "config.model.tooltip": "모델 ID. 예: gpt-4o, gemini-1.5-flash",
+    "config.local-url.name": "로컬 URL (Llama)",
+    "config.local-url.tooltip": "llama.cpp 서버 URL (예: http://localhost:8080)",
+    "config.section-customization.title": "AI 설정",
+    "config.nsfw.name": "NSFW 콘텐츠 허용",
+    "config.nsfw.tooltip": "성인용/노골적인 상호작용을 활성화 또는 비활성화합니다.",
+    "config.temperature.name": "창의성 (온도)",
+    "config.temperature.tooltip": "높은 값(예: 0.9)은 AI를 더 창의적으로 만듭니다."
+}

@@ -1,0 +1,14 @@
+{
+    "config.api-key-gemini.name": "Gemini API 密钥",
+    "config.api-key-openai.name": "OpenAI API 密钥",
+    "config.api-key-openrouter.name": "OpenRouter API 密钥",
+    "config.model.name": "AI 模型",
+    "config.model.tooltip": "模型 ID。例如：gpt-4o, gemini-1.5-flash",
+    "config.local-url.name": "本地 URL (Llama)",
+    "config.local-url.tooltip": "llama.cpp 服务器 URL (例如：http://localhost:8080)",
+    "config.section-customization.title": "AI 定制",
+    "config.nsfw.name": "允许 NSFW 内容",
+    "config.nsfw.tooltip": "启用或禁用成人/显式互动。",
+    "config.temperature.name": "创造力 (温度)",
+    "config.temperature.tooltip": "高值（如 0.9）使 AI 更具创造力。"
+}

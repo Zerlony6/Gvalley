@@ -1,0 +1,14 @@
+{
+    "config.api-key-gemini.name": "Gemini API kulcs",
+    "config.api-key-openai.name": "OpenAI API kulcs",
+    "config.api-key-openrouter.name": "OpenRouter API kulcs",
+    "config.model.name": "MI Modell",
+    "config.model.tooltip": "Modell azonosító. Pl: gpt-4o, gemini-1.5-flash",
+    "config.local-url.name": "Helyi URL (Llama)",
+    "config.local-url.tooltip": "llama.cpp szerver URL (pl: http://localhost:8080)",
+    "config.section-customization.title": "MI Testreszabás",
+    "config.nsfw.name": "NSFW tartalom engedélyezése",
+    "config.nsfw.tooltip": "Felnőtt/explicit interakciók engedélyezése.",
+    "config.temperature.name": "Kreativitás (Hőmérséklet)",
+    "config.temperature.tooltip": "A magas értékek kreatívabbá teszik az MI-t."
+}

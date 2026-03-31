@@ -1,0 +1,14 @@
+{
+    "config.api-key-gemini.name": "Gemini API Anahtarı",
+    "config.api-key-openai.name": "OpenAI API Anahtarı",
+    "config.api-key-openrouter.name": "OpenRouter API Anahtarı",
+    "config.model.name": "Yapay Zeka Modeli",
+    "config.model.tooltip": "Model kimliği. Örn: gpt-4o, gemini-1.5-flash",
+    "config.local-url.name": "Yerel URL (Llama)",
+    "config.local-url.tooltip": "llama.cpp sunucusu için URL (örn: http://localhost:8080)",
+    "config.section-customization.title": "Yapay Zeka Özelleştirme",
+    "config.nsfw.name": "NSFW İçeriğe İzin Ver",
+    "config.nsfw.tooltip": "Yetişkinlere uygun/açık etkileşimleri etkinleştirir veya devre dışı bırakır.",
+    "config.temperature.name": "Yaratıcılık (Sıcaklık)",
+    "config.temperature.tooltip": "Yüksek değerler yapay zekayı daha yaratıcı yapar."
+}

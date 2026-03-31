@@ -1,0 +1,14 @@
+{
+    "config.api-key-gemini.name": "Gemini APIキー",
+    "config.api-key-openai.name": "OpenAI APIキー",
+    "config.api-key-openrouter.name": "OpenRouter APIキー",
+    "config.model.name": "AIモデル",
+    "config.model.tooltip": "モデルID。例: gpt-4o, gemini-1.5-flash",
+    "config.local-url.name": "ローカルURL (Llama)",
+    "config.local-url.tooltip": "llama.cppサーバーのURL (例: http://localhost:8080)",
+    "config.section-customization.title": "AIカスタマイズ",
+    "config.nsfw.name": "NSFWコンテンツを許可",
+    "config.nsfw.tooltip": "成人向け/露骨なインタラクションを有効または無効にします。",
+    "config.temperature.name": "創造性 (温度)",
+    "config.temperature.tooltip": "高い値（例：0.9）はAIをより創造的にします。"
+}
