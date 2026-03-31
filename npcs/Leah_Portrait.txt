@@ -11,5 +11,5 @@ Mapeamento de Índices:
 4: Envergonhada / Corada (Rosto rosado)
 5: Brava / Séria (Sobrancelhas franzidas, expressão firme)
 6: Surpresa / Chocada (Olhos arregalados e boca aberta)
-7: Neutro (Repetição do frame 0)
+7: Desinteressada / Cética (Repetição do frame 0)
 8: Falando ao telefone (Expressão séria segurando o telefone)
