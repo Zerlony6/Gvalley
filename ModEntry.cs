@@ -93,17 +93,24 @@ namespace GeminiMod
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
+                name: () => "Chave da API OpenAI",
+                getValue: () => this.Config.OpenAiApiKey,
+                setValue: value => this.Config.OpenAiApiKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "Chave da API OpenRouter",
+                getValue: () => this.Config.OpenRouterApiKey,
+                setValue: value => this.Config.OpenRouterApiKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
                 name: () => "Modelo da IA",
-                tooltip: () => "Ex: gemini-3-flash-preview, etc.",
+                tooltip: () => "O ID do modelo. Ex: gpt-4o, gemini-1.5-flash, meta-llama/llama-3-70b-instruct",
                 getValue: () => this.Config.Model,
-                setValue: value => this.Config.Model = value,
-                allowedValues: new[] { 
-                    "gemini-3-flash-preview", 
-                    "gemini-3.1-flash-lite-preview", 
-                    "gemini-2.5-flash", 
-                    "gemini-2.5-flash-lite",
-                    "Local Llama (llama.cpp)"
-                }
+                setValue: value => this.Config.Model = value
             );
 
             configMenu.AddTextOption(

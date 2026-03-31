@@ -12,7 +12,7 @@ namespace GeminiMod.Services
     {
         private readonly ModConfig Config;
         private readonly IMonitor Monitor;
-        private static readonly HttpClient client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         public AiService(ModConfig config, IMonitor monitor)
         {
@@ -20,58 +20,95 @@ namespace GeminiMod.Services
             this.Monitor = monitor;
         }
 
+        /// <summary>Envia o prompt para o provedor de IA adequado com base no modelo selecionado.</summary>
         public async Task<string> GetAiResponse(string prompt)
         {
-            if (this.Config.Model == "Local Llama (llama.cpp)")
+            string model = this.Config.Model?.ToLower() ?? "";
+
+            try
             {
-                var url = $"{this.Config.LocalLlamaUrl.TrimEnd('/')}/v1/chat/completions";
-
-                var requestBody = new
+                // 1. Prioridade: OpenRouter (Geralmente modelos com '/' no nome)
+                if (!string.IsNullOrWhiteSpace(this.Config.OpenRouterApiKey) && model.Contains("/"))
                 {
-                    messages = new[] { new { role = "user", content = prompt } },
-                    temperature = this.Config.Temperature
-                };
+                    return await this.CallOpenAiCompatibleApi("https://openrouter.ai/api/v1/chat/completions", this.Config.OpenRouterApiKey, prompt, true);
+                }
 
-                string json = JsonConvert.SerializeObject(requestBody);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // 2. OpenAI Nativo
+                if (!string.IsNullOrWhiteSpace(this.Config.OpenAiApiKey) && (model.Contains("gpt") || model.Contains("o1")))
+                {
+                    return await this.CallOpenAiCompatibleApi("https://api.openai.com/v1/chat/completions", this.Config.OpenAiApiKey, prompt);
+                }
 
-                var response = await client.PostAsync(url, content);
-                string responseJson = await response.Content.ReadAsStringAsync();
-                
-                this.Monitor.Log($"Resposta bruta (Local Llama): {responseJson}", LogLevel.Trace);
-                response.EnsureSuccessStatusCode();
+                // 3. Google Gemini Nativo
+                if (!string.IsNullOrWhiteSpace(this.Config.ApiKey) && model.Contains("gemini"))
+                {
+                    return await this.CallGeminiApi(prompt);
+                }
 
-                var data = JsonConvert.DeserializeObject<LocalLlamaResponse>(responseJson);
-                return data?.Choices?[0]?.Message?.Content ?? "O Llama local não retornou texto.";
+                // 4. Local Llama (Fallback ou URL preenchida)
+                if (!string.IsNullOrWhiteSpace(this.Config.LocalLlamaUrl))
+                {
+                    string endpoint = $"{this.Config.LocalLlamaUrl.TrimEnd('/')}/v1/chat/completions";
+                    return await this.CallOpenAiCompatibleApi(endpoint, "no-key", prompt);
+                }
+
+                throw new Exception("Nenhum provedor configurado para este modelo. Verifique as chaves de API e o nome do modelo.");
             }
-            else
+            catch (Exception ex)
             {
-                var url = $"https://generativelanguage.googleapis.com/v1beta/models/{this.Config.Model}:generateContent?key={this.Config.ApiKey}";
-
-                var requestBody = new
-                {
-                    contents = new[]
-                    {
-                        new { parts = new[] { new { text = prompt } } }
-                    },
-                    generationConfig = new
-                    {
-                        temperature = this.Config.Temperature
-                    }
-                };
-
-                string json = JsonConvert.SerializeObject(requestBody);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await client.PostAsync(url, content);
-                string responseJson = await response.Content.ReadAsStringAsync();
-
-                this.Monitor.Log($"Resposta bruta da API: {responseJson}", LogLevel.Trace);
-                response.EnsureSuccessStatusCode();
-
-                var data = JsonConvert.DeserializeObject<GeminiResponse>(responseJson);
-                return data?.Candidates?[0]?.Content?.Parts?[0]?.Text ?? "O Gemini não retornou texto.";
+                this.Monitor.Log($"Erro no AiService: {ex.Message}", LogLevel.Error);
+                throw;
             }
+        }
+
+        private async Task<string> CallGeminiApi(string prompt)
+        {
+            string url = $"https://generativelanguage.googleapis.com/v1beta/models/{this.Config.Model}:generateContent?key={this.Config.ApiKey}";
+            
+            var requestBody = new
+            {
+                contents = new[] { new { parts = new[] { new { text = prompt } } } },
+                generationConfig = new { temperature = this.Config.Temperature }
+            };
+
+            string json = JsonConvert.SerializeObject(requestBody);
+            var response = await HttpClient.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+            string responseJson = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) throw new Exception($"Google API Erro: {response.StatusCode} - {responseJson}");
+
+            dynamic result = JsonConvert.DeserializeObject(responseJson);
+            return result.candidates[0].content.parts[0].text;
+        }
+
+        private async Task<string> CallOpenAiCompatibleApi(string endpoint, string apiKey, string prompt, bool isOpenRouter = false)
+        {
+            var requestBody = new
+            {
+                model = this.Config.Model,
+                messages = new[] { new { role = "user", content = prompt } },
+                temperature = this.Config.Temperature
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+            request.Headers.Add("Authorization", $"Bearer {apiKey}");
+
+            if (isOpenRouter)
+            {
+                // Requisito do OpenRouter para identificação do mod
+                request.Headers.Add("HTTP-Referer", "https://github.com/zerlony/Gvalley");
+                request.Headers.Add("X-Title", "Stardew Valley Gvalley Mod");
+            }
+
+            request.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            
+            var response = await HttpClient.SendAsync(request);
+            string responseJson = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) throw new Exception($"API Erro: {response.StatusCode} - {responseJson}");
+
+            dynamic result = JsonConvert.DeserializeObject(responseJson);
+            return result.choices[0].message.content;
         }
     }
 }
