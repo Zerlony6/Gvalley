@@ -10,5 +10,7 @@
     "config.nsfw.name": "NSFWコンテンツを許可",
     "config.nsfw.tooltip": "成人向け/露骨なインタラクションを有効または無効にします。",
     "config.temperature.name": "創造性 (温度)",
-    "config.temperature.tooltip": "高い値（例：0.9）はAIをより創造的にします。"
+    "config.temperature.tooltip": "高い値（例：0.9）はAIをより創造的にします。",
+    "config.max-tokens.name": "最大応答サイズ",
+    "config.max-tokens.tooltip": "メッセージが途切れる場合は、この値を増やしてください。"
 }

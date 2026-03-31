@@ -10,5 +10,7 @@
     "config.nsfw.name": "NSFW İçeriğe İzin Ver",
     "config.nsfw.tooltip": "Yetişkinlere uygun/açık etkileşimleri etkinleştirir veya devre dışı bırakır.",
     "config.temperature.name": "Yaratıcılık (Sıcaklık)",
-    "config.temperature.tooltip": "Yüksek değerler yapay zekayı daha yaratıcı yapar."
+    "config.temperature.tooltip": "Yüksek değerler yapay zekayı daha yaratıcı yapar.",
+    "config.max-tokens.name": "Maksimum Yanıt Boyutu",
+    "config.max-tokens.tooltip": "Mesajlar kesiliyorsa bu değeri artırın."
 }

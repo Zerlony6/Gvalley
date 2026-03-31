@@ -10,5 +10,7 @@
     "config.nsfw.name": "Autoriser le contenu NSFW",
     "config.nsfw.tooltip": "Active ou désactive les interactions explicites.",
     "config.temperature.name": "Créativité (Température)",
-    "config.temperature.tooltip": "Des valeurs élevées rendent l'IA plus créative."
+    "config.temperature.tooltip": "Des valeurs élevées rendent l'IA plus créative.",
+    "config.max-tokens.name": "Taille maximale de la réponse",
+    "config.max-tokens.tooltip": "Augmentez cette valeur si les messages sont coupés."
 }

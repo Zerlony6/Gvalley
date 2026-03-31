@@ -10,5 +10,7 @@
     "config.nsfw.name": "Разрешить NSFW-контент",
     "config.nsfw.tooltip": "Включает или отключает контент для взрослых.",
     "config.temperature.name": "Креативность (Температура)",
-    "config.temperature.tooltip": "Высокие значения делают ИИ более креативным."
+    "config.temperature.tooltip": "Высокие значения делают ИИ более креативным.",
+    "config.max-tokens.name": "Максимальный размер ответа",
+    "config.max-tokens.tooltip": "Увеличьте это значение, если сообщения обрываются."
 }

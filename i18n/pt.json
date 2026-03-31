@@ -10,5 +10,7 @@
     "config.nsfw.name": "Permitir Conteúdo NSFW",
     "config.nsfw.tooltip": "Habilita ou desabilita interações de cunho adulto/explícito.",
     "config.temperature.name": "Criatividade (Temperature)",
-    "config.temperature.tooltip": "Valores altos (ex: 0.9) tornam a IA mais criativa, valores baixos (ex: 0.2) mais objetiva."
+    "config.temperature.tooltip": "Valores altos (ex: 0.9) tornam a IA mais criativa, valores baixos (ex: 0.2) mais objetiva.",
+    "config.max-tokens.name": "Tamanho Máximo da Resposta",
+    "config.max-tokens.tooltip": "Aumente este valor se as falas dos NPCs estiverem sendo cortadas no meio."
 }

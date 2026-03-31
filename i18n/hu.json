@@ -10,5 +10,7 @@
     "config.nsfw.name": "NSFW tartalom engedélyezése",
     "config.nsfw.tooltip": "Felnőtt/explicit interakciók engedélyezése.",
     "config.temperature.name": "Kreativitás (Hőmérséklet)",
-    "config.temperature.tooltip": "A magas értékek kreatívabbá teszik az MI-t."
+    "config.temperature.tooltip": "A magas értékek kreatívabbá teszik az MI-t.",
+    "config.max-tokens.name": "Maximális válaszméret",
+    "config.max-tokens.tooltip": "Növelje ezt az értéket, ha az üzenetek félbeszakadnak."
 }

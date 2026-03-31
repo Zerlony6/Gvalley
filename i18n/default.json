@@ -10,5 +10,7 @@
     "config.nsfw.name": "Allow NSFW Content",
     "config.nsfw.tooltip": "Enables or disables adult/explicit interactions.",
     "config.temperature.name": "Creativity (Temperature)",
-    "config.temperature.tooltip": "High values (ex: 0.9) make the AI more creative, low values (ex: 0.2) more objective."
+    "config.temperature.tooltip": "High values (ex: 0.9) make the AI more creative, low values (ex: 0.2) more objective.",
+    "config.max-tokens.name": "Max Response Size",
+    "config.max-tokens.tooltip": "Maximum length of the response. Increase this if messages are getting cut off."
 }

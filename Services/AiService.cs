@@ -68,7 +68,10 @@ namespace GeminiMod.Services
             var requestBody = new
             {
                 contents = new[] { new { parts = new[] { new { text = prompt } } } },
-                generationConfig = new { temperature = this.Config.Temperature }
+                generationConfig = new { 
+                    temperature = this.Config.Temperature,
+                    maxOutputTokens = this.Config.MaxTokens
+                }
             };
 
             string json = JsonConvert.SerializeObject(requestBody);
@@ -87,7 +90,8 @@ namespace GeminiMod.Services
             {
                 model = this.Config.Model,
                 messages = new[] { new { role = "user", content = prompt } },
-                temperature = this.Config.Temperature
+                temperature = this.Config.Temperature,
+                max_tokens = this.Config.MaxTokens
             };
 
             var request = new HttpRequestMessage(HttpMethod.Post, endpoint);

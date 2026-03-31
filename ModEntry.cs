@@ -139,6 +139,15 @@ namespace GeminiMod
                 setValue: value => this.Config.Temperature = value,
                 min: 0.1f, max: 1.5f, interval: 0.1f
             );
+
+            configMenu.AddNumberOption(
+                mod: this.ModManifest,
+                name: () => this.Helper.Translation.Get("config.max-tokens.name"),
+                tooltip: () => this.Helper.Translation.Get("config.max-tokens.tooltip"),
+                getValue: () => this.Config.MaxTokens,
+                setValue: value => this.Config.MaxTokens = value,
+                min: 50, max: 1000, interval: 50
+            );
         }
 
         private void OnAskGemini(string command, string[] args)

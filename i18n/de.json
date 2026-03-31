@@ -10,5 +10,7 @@
     "config.nsfw.name": "NSFW-Inhalte erlauben",
     "config.nsfw.tooltip": "Aktiviert oder deaktiviert explizite Inhalte.",
     "config.temperature.name": "Kreativität (Temperatur)",
-    "config.temperature.tooltip": "Hohe Werte (z. B. 0.9) machen die KI kreativer."
+    "config.temperature.tooltip": "Hohe Werte (z. B. 0.9) machen die KI kreativer.",
+    "config.max-tokens.name": "Maximale Antwortgröße",
+    "config.max-tokens.tooltip": "Erhöhen Sie diesen Wert, wenn Nachrichten abgeschnitten werden."
 }
