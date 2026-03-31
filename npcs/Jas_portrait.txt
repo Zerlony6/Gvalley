@@ -1,0 +1,10 @@
+Variações de Traje Analisadas:
+- Normal (Vestido lilás e laço verde no cabelo)
+- Inverno (Casaco rosa e touca azul)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso leve (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos fechados, boca aberta de alegria)
+2: Triste / Amuada (Olhar para baixo, boca curvada de desapontamento)
+3: Envergonhada / Tímida (Rosto corado, olhar neutro)
+4: Explicando / Pensativa (Dedo indicador levantado, olhar atento)

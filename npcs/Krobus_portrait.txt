@@ -1,0 +1,14 @@
+Variações de Traje Analisadas:
+- Única (Monstro das Sombras)
+- Disfarce (Sobretudo roxo, chapéu e óculos escuros - Frame 8)
+
+Mapeamento de Índices:
+0: Neutro (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos em formato de 'V' invertido, sorriso largo)
+2: Triste / Desapontado (Olhos caídos e boca curvada para baixo)
+3: Surpreso / Atento (Olhos ovais e altos)
+4: Envergonhado / Corado (Olhos em 'V', sorriso e bochechas roxas/rosadas)
+5: Bravo / Agressivo (Olhos semicerrados e dentes serrilhados à mostra)
+6: Assustador / Intimidante (Sorriso largo com dentes e garras juntas)
+7: Feliz / Rindo com a mão (Olhos em 'V' e mão perto da boca)
+8: Disfarce Humano (Usando terno, chapéu e óculos escuros)

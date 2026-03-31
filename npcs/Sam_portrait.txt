@@ -1,0 +1,19 @@
+Variações de Traje Analisadas:
+- Normal (Jaqueta azul / Blusa amarela)
+- Beach (Sem camisa)
+- Joja (Uniforme azul com fones de ouvido)
+- Inverno (Casaco marrom grosso e touca verde)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso leve (Olhar padrão)
+1: Muito Feliz / Rindo (Olhos fechados, sorriso largo)
+2: Pensativo / Olhando para o lado
+3: Satisfeito / Sorridente (Olhos fechados, sorriso fechado)
+4: Envergonhado / Corado (Bochechas rosadas)
+5: Bravo / Sério (Sobrancelhas franzidas)
+6: Lendo (Olhando para baixo segurando carta)
+7: Sério / Focado (Olhar atento)
+8: Chocado / Surpreso (Olhos arregalados, boca aberta)
+9: Triste / Melancólico (Olhando para baixo)
+10: Alegre / Descontraído (Mão atrás da cabeça)
+11: No Holofote (Fundo circular escuro - Frame de show)

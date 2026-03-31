@@ -1,0 +1,18 @@
+Variações de Traje Analisadas:
+- Normal (Moletom azul da Joja)
+- Beach (Camisa polo verde e óculos escuros)
+- Joja (Suéter azul e boné da Joja)
+- Inverno (Jaqueta puffer azul e touca azul)
+
+Mapeamento de Índices:
+0: Neutro / Cansado (Expressão padrão, olheiras visíveis)
+1: Muito Feliz / Rindo (Olhos fechados, sorriso largo)
+2: Bravo / Incomodado (Sobrancelhas franzidas, olhando para o lado)
+3: Pensativo / Desconfiado (Olhar lateral, boca em linha reta)
+4: Smug / Corado (Bochechas rosadas, sorriso de canto)
+5: Sério / Apático (Olhar frontal, boca em linha reta)
+6: Triste / Melancólico (Olhar caído para baixo)
+7: Desmaiado / Bêbado (Lado de perfil, caído no chão)
+8: Feliz com a Galinha Charlie (Segurando galinha, olhos fechados)
+9: Triste com a Galinha Charlie (Segurando galinha, apático)
+10: Surpreso / Chocado (Olhos arregalados e boca aberta)

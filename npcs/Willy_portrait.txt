@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Camisa vermelha e chapéu marrom de capitão)
+- Inverno (Capa de chuva amarela e chapéu marrom de capitão)
+
+Mapeamento de Índices:
+0: Neutro / Amigável (Expressão padrão com barba)
+1: Feliz / Rindo (Olhos fechados e sorriso)
+2: Pensativo / Olhar Lateral (Olhando para a direita/cima)
+3: Sério / Trabalhando (Mão segurando um cachimbo na boca)
+
+Notas: Willy é o pescador local. O frame 3 é muito característico de seus momentos de reflexão sobre o mar.

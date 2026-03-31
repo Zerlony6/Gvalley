@@ -1,0 +1,8 @@
+Variações de Traje Analisadas:
+- Única (Terno preto da Joja e gravata borboleta vermelha)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso profissional (Expressão padrão de gerente)
+1: Malicioso / Sarcástico (Piscando um olho / Sobrancelha arqueada)
+2: Descontrolado / Insano (Olhos arregalados, língua para fora)
+3: Bravo / Autoritário (Sobrancelhas franzidas, dentes à mostra)

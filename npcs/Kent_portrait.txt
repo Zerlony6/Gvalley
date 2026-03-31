@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Jaqueta militar verde com insígnias)
+- Inverno (Casaco marrom de gola alta)
+
+Mapeamento de Índices:
+0: Neutro / Sério (Olhar padrão firme)
+1: Sorriso Leve / Gentil (Expressão mais suave)
+2: Triste / Melancólico (Olhos semicerrados, olhar para baixo)
+3: Bravo / Tenso (Dentes à mostra, sobrancelhas muito franzidas)
+4: Surpreso / Alerta (Olhos arregalados)
+5: Pensativo / Olhar Lateral (Olhando para o lado)

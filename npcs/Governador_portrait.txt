@@ -1,0 +1,8 @@
+Variações de Traje Analisadas:
+- Única (Terno roxo e chapéu com pena)
+
+Mapeamento de Índices:
+0: Neutro / Contente (Olhos fechados, sorriso leve)
+1: Feliz / Satisfeito (Sorriso um pouco mais largo)
+2: Neutro (Repetição do frame 0)
+3: Doente / Envenenado (Pele verde, bolhas de mal-estar)

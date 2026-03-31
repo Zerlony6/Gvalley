@@ -1,0 +1,6 @@
+Variações de Traje Analisadas:
+- Única (Forma espiritual azulada)
+
+Mapeamento de Índices:
+0: Neutro / Sereno (Olhos fechados, sorriso leve)
+1: Falando / Feliz (Boca levemente aberta)

@@ -1,0 +1,8 @@
+Variações de Traje Analisadas:
+- Única (Moletom azul da Joja e óculos escuros)
+
+Mapeamento de Índices:
+0: Neutro / Profissional (Sorrindo, segurando formulário da Joja)
+1: Alegre / Persuasivo (Sorriso largo mostrando dente de ouro)
+2: Sério / Focado (Olhar mais fechado/baixo)
+3: Malicioso / Negociante (Fazendo sinal de 'OK' com a mão)

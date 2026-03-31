@@ -1,0 +1,15 @@
+Variações de Traje Analisadas:
+- Normal (Camisa verde com gola)
+- Beach (Biquíni verde)
+- Inverno (Casaco azul com bolinhas brancas)
+
+Mapeamento de Índices:
+0: Neutro (Sorriso leve / Expressão padrão)
+1: Alegre / Rindo (Olhos fechados, sorriso largo)
+2: Triste / Pensativa (Olhar para o lado/baixo, sobrancelhas caídas)
+3: Feliz (Sorriso aberto, mirando o jogador)
+4: Envergonhada / Corada (Rosto rosado)
+5: Brava / Séria (Sobrancelhas franzidas, expressão firme)
+6: Surpresa / Chocada (Olhos arregalados e boca aberta)
+7: Neutro (Repetição do frame 0)
+8: Falando ao telefone (Expressão séria segurando o telefone)

@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Normal (Colete amarelo/laranja sobre camisa azul)
+- Inverno (Suéter azul de gola alta)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso leve (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos fechados)
+2: Triste / Preocupado (Sobrancelhas caídas, olhar para o lado)
+3: Bravo / Sério (Sobrancelhas franzidas)

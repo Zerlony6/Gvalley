@@ -1,0 +1,7 @@
+Variações de Traje Analisadas:
+- Única (Chapéu explorador, barba cinza e óculos)
+
+Mapeamento de Índices:
+0: Neutro / Atento (Olhar de perfil padrão)
+1: Feliz / Satisfeito (Olhos fechados e sorriso gentil)
+2: Pensativo / Focado (Olhos fechados, boca em linha reta)

@@ -1,0 +1,6 @@
+Variações de Traje Analisadas:
+- Única (Suéter cinza, suspensórios e chapéu vermelho)
+
+Mapeamento de Índices:
+0: Neutro / Dormindo (Olhos fechados, expressão padrão)
+1: Surpreso / Chocado (Olhos arregalados e boca aberta)

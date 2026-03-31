@@ -1,0 +1,18 @@
+Variações de Traje Analisadas:
+- Normal (Jaqueta verde / Gravata borboleta marrom)
+- Inverno (Terno azul marinho / Gravata vermelha)
+- Beach (Sem camisa / Chapéu de palha grande)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso gentil (Padrão com bigode)
+1: Muito Feliz / Alegre (Olhos fechados, sorriso largo)
+2: Triste / Preocupado (Olhar para baixo, boca em linha reta)
+3: Focado / Ouvindo (Usando estetoscópio nos ouvidos)
+4: Envergonhado / Tímido (Rosto rosado / Corado)
+5: Sério / Profissional (Boca séria, sem sorriso)
+6: Feliz / Encantado (Sorriso com rosto levemente rosado)
+7: Nervoso / Constrangido (Mão atrás da cabeça, boca torta, corado)
+8: Chocado / Pânico (Olhos arregalados, suor e exclamação)
+9: Concentrado / Rádio (Usando fones de ouvido grandes)
+10: Surpreso com Fone (Fones de ouvido, olhos arregalados e exclamação)
+11: Neutro (Repetição do frame 0)

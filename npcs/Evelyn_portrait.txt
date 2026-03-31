@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Normal (Vestido vermelho com ondas)
+- Inverno (Vestido amarelo com lenço marrom na cabeça)
+
+Mapeamento de Índices:
+0: Neutro / Satisfeita (Olhos fechados, sorriso gentil)
+1: Feliz / Rindo (Boca levemente aberta, olhos fechados)
+2: Triste / Preocupada (Sobrancelhas franzidas, olhar para baixo)
+3: Neutro / Satisfeita (Repetição do frame 0)

@@ -1,0 +1,19 @@
+Variações de Traje Analisadas:
+- Normal (Blusa amarela e coque lateral)
+- Beach (Biquíni verde e coque lateral)
+- Inverno (Casaco verde escuro com botões)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso gentil (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos fechados, sorriso alegre)
+2: Triste / Preocupada (Olhar baixo, sobrancelhas caídas)
+3: Seria / sem sorriso (Olhar frontal sem emoção)
+4: Envergonhada / Tímida (Rosto corado, olhar frontal)
+5: Raiva / Incomodada (Rosto Rigido, olhando de forma Agressiva)
+6: Perfil (Roupa de banho azul / Usado no Spa)
+7: Perfil (Traje Normal ou Inverno / Olhando para a esquerda)
+8: Perfil Corada (Roupa de banho azul)
+9: Perfil Neutra (Roupa de banho azul)
+10: Emocionada / Chorando (Roupa de banho azul / Evento do Spa)
+11: Hairstyle Alternativo (Cabelo solto com cachos nas pontas)
+12: Surpresa / Chocada / Horrorizada (Olhos arregalados, boca aberta)

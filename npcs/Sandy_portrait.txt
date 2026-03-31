@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Única (Vestido azul estrelado, laço azul no cabelo)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso leve (Perfil padrão)
+1: Feliz / Rindo (Olhos fechados, sorriso largo)
+2: Triste / Melancólica (Olhar caído para baixo)
+3: Neutra (Repetição do frame 0)
+

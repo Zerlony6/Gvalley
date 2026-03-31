@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Camisa verde com suspensórios e chapéu marrom)
+- Inverno (Paletó marrom e gravata borboleta amarela)
+
+Mapeamento de Índices:
+0: Neutro / Cordial (Olhar padrão amigável)
+1: Feliz (Sorrindo com olhos semicerrados)
+2: Triste / Preocupado (Sobrancelhas caídas, olhar para o lado)
+3: Surpreso / Alerta (Olhos arregalados e sobrancelhas altas)
+4: Bravo / Autoritário (Sobrancelhas muito franzidas, boca séria)
+5: Envergonhado / Corada (Rosto rosado, olhar neutro)

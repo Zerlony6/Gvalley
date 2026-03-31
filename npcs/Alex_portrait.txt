@@ -1,0 +1,17 @@
+Variações de Traje Analisadas:
+- Normal (Jaqueta Verde/Amarela)
+- Inverno (Moletom Vermelho)
+- Beach (Sem camisa)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso confiante
+1: Piscando / Galanteador (Muito Feliz)
+2: Triste / Decepcionado (Olhando para baixo)
+3: Feliz (Segurando a bola de Gridball) -> [NOTA: Vazio na versão de Beach]
+4: Envergonhado / Corada
+5: Bravo / Irritado
+6: Confiante (Versão sem camisa - Tronco visível)
+7: Surpreso / Chocado (Boca aberta)
+8: Triste (Versão sem camisa - Tronco visível)
+9: Sério / Determinado (Versão sem camisa - Tronco visível)
+10: Comendo (Animação com o bife/garfo)

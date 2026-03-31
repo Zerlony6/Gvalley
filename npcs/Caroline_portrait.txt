@@ -1,0 +1,10 @@
+Variações de Traje Analisadas:
+- Normal (Blusa azul listrada)
+- Inverno (Suéter vermelho natalino)
+- Beach (Biquíni azul)
+
+Mapeamento de Índices:
+0: Neutro (Sorriso leve / Padrão)
+1: Feliz (Sorriso aberto / Alegre)
+2: Triste / Pensativa (Olhar desviado para o lado/baixo)
+3: Brava / Irritada (Sobrancelhas franzidas)

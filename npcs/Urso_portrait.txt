@@ -1,0 +1,8 @@
+Variações de Traje Analisadas:
+- Única (Padrão)
+
+Mapeamento de Índices:
+0: Neutro / Amigável
+1: Muito Feliz (Rindo, segurando garrafa de Xarope de Bordo)
+2: Satisfeito / Olhos fechados
+3: Feliz / Sorridente

@@ -1,0 +1,17 @@
+Variações de Traje Analisadas:
+- Normal (Macacão roxo sobre blusa branca)
+- Beach (Biquíni rosa com triângulos)
+- Hospital (Uniforme de enfermeira branca)
+- Inverno (Casaco marrom sobre blusa cinza)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso leve (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos fechados, sorriso largo)
+2: Triste / Desapontada (Olhar para o lado, sobrancelhas baixas)
+3: Pensativa / Explicando (Dedo indicador levantado) -> [NOTA: ÓCULOS na Beach]
+4: Esperançosa / Sonhadora (Mãos juntas em frente ao rosto)
+5: Brava / Irritada (Sobrancelhas franzidas)
+6: Neutra (Repetição do frame 0)
+7: Neutra (Repetição do frame 0)
+8: Neutra (Repetição do frame 0)
+9: Surpresa / Chocada (Olhos arregalados, boca aberta e exclamação)

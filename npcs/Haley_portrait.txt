@@ -1,0 +1,20 @@
+Variações de Traje Analisadas:
+- Normal (Top rosa / Verão)
+- Beach (Biquíni azul sem alças)
+- Inverno (Casaco marrom com protetores de ouvido)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso leve
+1: Muito Feliz / Rindo (Olhos fechados)
+2: Triste / Chateada (Olhando para baixo)
+3: Desinteressada / Esnobe (Olhando para o lado)
+4: Envergonhada / Corada (Rosto rosado)
+5: Brava / Irritada (Sobrancelhas franzidas e ícone de raiva)
+6: Neutro (Repetição do frame 0)
+7: Neutro (Repetição do frame 0)
+8: Surpresa / Interessada (Olhos arregalados e brilhantes)
+9: Suja de Lama / Chateada (Cabelo bagunçado e manchas de terra)
+10: Suja de Lama / Rindo (Cabelo bagunçado e rindo da situação)
+11: Satisfeita / Serena (Olhos fechados e sorriso calmo)
+12: Chocada / Horrorizada (Boca aberta e olhos arregalados)
+13: Sorriso de Canto / Pensativa (Olhar lateral suave)

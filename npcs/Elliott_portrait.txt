@@ -1,0 +1,15 @@
+Variações de Traje Analisadas:
+- Normal (Casaco Vinho / Lenço Verde)
+- Inverno (Sobretudo Cinza / Cachecol Vermelho)
+- Beach (Sem camisa)
+
+Mapeamento de Índices:
+0: Neutro (Sorriso leve de perfil)
+1: Muito Feliz / Rindo (Olhos fechados)
+2: Triste / Sério (Olhar para baixo)
+3: Feliz (Olhos abertos, sorriso gentil)
+4: Envergonhado / Corada (Rosto rosado)
+5: Bravo / Irritado (Sobrancelhas franzidas)
+6: Neutro (Repetição do frame 0)
+7: Neutro (Repetição do frame 0)
+8: Chocado / Muito Surpreso (Olhos arregalados e boca aberta)

@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Normal (Camiseta verde / Jaqueta verde)
+- Inverno (Casaco preto / Touca xadrez marrom)
+
+Mapeamento de Índices:
+0: Neutro / Ranzinza (Expressão padrão séria)
+1: Feliz / Satisfeito (Olhos fechados e sorriso)
+2: Triste / Desanimado (Olhar para baixo)
+3: Muito Bravo / Furioso (Sobrancelhas muito franzidas, boca aberta)

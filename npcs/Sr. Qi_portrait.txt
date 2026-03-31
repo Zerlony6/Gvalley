@@ -1,0 +1,6 @@
+Variações de Traje Analisadas:
+- Única (Terno estrelado azul, chapéu e óculos escuros roxos)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso enigmático (Expressão padrão)
+1: Sério / Estoico (Boca em linha reta)

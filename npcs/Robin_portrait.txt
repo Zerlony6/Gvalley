@@ -1,0 +1,14 @@
+Variações de Traje Analisadas:
+- Normal (Camisa de flanela amarela / Coque lateral)
+- Beach (Biquíni verde escura / Coque lateral)
+- Inverno (Casaco marrom com gola de pelos / Coque lateral)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso gentil (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos fechados, sorriso largo)
+2: Triste / Preocupada (Olhar para o lado, sobrancelhas caídas)
+3: Brava / Irritada (Sobrancelhas franzidas, boca séria)
+4: Muito Feliz / Acenando (Olhos fechados, rindo com a mão levantada)
+5: Feliz / Satisfeita (Olhar frontal amigável)
+6: Smug / Maliciosa (Olhos semicerrados, sorriso de canto)
+7: Chocada / Surpresa (Olhos arregalados e boca aberta)

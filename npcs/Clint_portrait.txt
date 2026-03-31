@@ -1,0 +1,15 @@
+Variações de Traje Analisadas:
+- Normal (Avental de ferreiro / Cinza)
+- Inverno (Casaco marrom grosso)
+- Beach (Sem camisa)
+- Pijama (Azul com bolinhas e Boina - Frames 6 e 7)
+
+Mapeamento de Índices:
+0: Neutro (Olhar padrão)
+1: Feliz / Rindo (Olho piscando)
+2: Triste / Desanimado (Olhando para baixo)
+3: Bravo / Sério (Sobrancelhas franzidas)
+4: Envergonhado / Surpreso (Rosto rosado / Corado)
+5: Neutro (Segurando uma lata de Joja Cola)
+6: Neutro com Pijama e Boina
+7: Triste com Pijama e Boina

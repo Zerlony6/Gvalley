@@ -1,0 +1,13 @@
+Variações de Traje Analisadas:
+- Normal (Camisa polo azul)
+- Inverno (Colete cinza sobre camisa laranja)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso leve
+1: Muito Feliz (Rindo / Olhos fechados)
+2: Triste / Preocupado (Olhando para baixo)
+3: Pensativo / Explicando (Olhando para o lado)
+4: Bravo / Incomodado (Sobrancelhas franzidas)
+5: Sério / Neutro (Sem sorriso)
+6: Surpreso / Chocado (Olhos arregalados e exclamação)
+7: Roupa de Proteção (Hazmat Suit Amarela)

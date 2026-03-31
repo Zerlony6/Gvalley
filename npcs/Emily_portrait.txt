@@ -1,0 +1,14 @@
+Variações de Traje Analisadas:
+- Normal (Vestido Vermelho)
+- Inverno (Casaco Azul / Touca Vermelha)
+- Beach (Biquíni Vermelho)
+
+Mapeamento de Índices:
+0: Neutro / Sorridente
+1: Muito Feliz / Rindo (Olhos fechados)
+2: Triste / Preocupada (Olhando para baixo)
+3: Feliz / Neutra (Sorriso um pouco mais largo que o 0)
+4: Envergonhada / Corada (Rosto rosado)
+5: Brava / Determinada (Sobrancelhas franzidas)
+6: Chocada / Assustada (Olhos arregalados e exclamação)
+7: Meditando / Mística (Olhos fechados com aura de luz amarela)

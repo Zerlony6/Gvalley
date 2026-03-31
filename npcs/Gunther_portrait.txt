@@ -1,0 +1,6 @@
+Variações de Traje Analisadas:
+- Única (Terno azul, chapéu de cowboy azul e luvas brancas)
+
+Mapeamento de Índices:
+0: Neutro / Cordial (Cumprimentando o jogador com a mão no chapéu)
+

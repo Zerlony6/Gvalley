@@ -1,0 +1,16 @@
+Variações de Traje Analisadas:
+- Normal (Moletom preto com capuz)
+- Beach (Camisa branca simples)
+- Inverno (Casaco preto com cachecol listrado cinza)
+
+Mapeamento de Índices:
+0: Neutro / Desinteressado (Expressão padrão séria)
+1: Feliz / Satisfeito (Olhos semicerrados, sorriso leve)
+2: Triste / Pensativo (Olhar para baixo e para o lado, boca curvada)
+3: Sério / Neutro (Olhar frontal, sem sorriso)
+4: Smug / Galanteador (Rosto levemente corado, sorriso de canto)
+5: Irritado / Incomodado (Sobrancelhas franzidas, olhar firme)
+6: Neutro (Repetição do frame 0)
+7: Neutro (Repetição do frame 0)
+8: Trabalhando na Moto / Focado (Olhando para o lado, ferramentas ao fundo)
+9: Trabalhando na Moto / Feliz (Sorrindo gentilmente, ferramentas ao fundo)

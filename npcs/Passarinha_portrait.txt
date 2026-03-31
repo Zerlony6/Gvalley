@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Única (Padrão - Ilha Gengibre)
+
+Mapeamento de Índices:
+0: Neutro / Calma
+1: Sorrindo / Gentil
+2: Triste / Melancólica (Olhando para baixo)
+3: [ESPAÇO VAZIO/MARROM]
+

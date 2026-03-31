@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Camisa roxa com pontos claros)
+- Beach (Maiô Roxo)
+- Inverno (Casaco roxo estampado / Brincos azuis)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso amigável (Expressão padrão)
+1: Muito Feliz / Rindo (Olhos fechados, mão sobre a boca)
+2: Triste / Preocupada (Sobrancelhas caídas, olhar para o lado)
+3: Brava / Séria (Sobrancelhas franzidas)
+4: Surpresa / Chocada (Olhos arregalados)

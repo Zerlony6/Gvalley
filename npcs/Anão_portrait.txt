@@ -1,0 +1,5 @@
+Variações de Traje Analisadas:
+- Única (Padrão - Capuz Marrom)
+
+Mapeamento de Índices:
+0: Neutro (Olhos brilhantes dentro do capuz)

@@ -29,12 +29,14 @@ namespace GeminiMod
         private Texture2D PlayerPortrait;
         private AiService AiService;
         private MemoryManager MemoryManager;
+        private NpcInteractionService InteractionService;
 
         public override void Entry(IModHelper helper)
         {
             this.Config = this.Helper.ReadConfig<ModConfig>();
             this.AiService = new AiService(this.Config, this.Monitor);
             this.MemoryManager = new MemoryManager(this.Helper, this.Monitor);
+            this.InteractionService = new NpcInteractionService(this.Config, this.Monitor, this.AiService, this.MemoryManager, this.MainThreadActions);
 
             this.InitializeDirectories();
             this.LoadPlayerPortrait();
@@ -132,32 +134,6 @@ namespace GeminiMod
             );
         }
 
-        /// <summary>Captura o estado atual do jogo para dar contexto à IA.</summary>
-        private string GetGameContext(NPC targetNpc = null)
-        {
-            if (!Context.IsWorldReady) return "[Mundo não carregado]";
-
-            string season = Game1.currentSeason;
-            string weather = "Ensolarado";
-            if (Game1.isRaining) weather = "Chuvoso";
-            if (Game1.isSnowing) weather = "Nevando";
-            if (Game1.isLightning) weather = "Tempestade";
-            if (Game1.isDebrisWeather) weather = "Ventando";
-
-            string time = Game1.getTimeOfDayString(Game1.timeOfDay);
-            string location = Game1.currentLocation.Name;
-            
-            string context = $"[Contexto: Jogador={Game1.player.Name}, Local={location}, Data={Game1.dayOfMonth} de {season}, Clima={weather}, Hora={time}]";
-
-            if (targetNpc != null)
-            {
-                int friendship = Game1.player.friendshipData.TryGetValue(targetNpc.Name, out var friendshipData) ? friendshipData.Points : 0;
-                context += $" [Interagindo com NPC: Nome={targetNpc.Name}, Amizade={friendship} pts]";
-            }
-
-            return context;
-        }
-
         private void OnAskGemini(string command, string[] args)
         {
             string query = string.Join(" ", args);
@@ -193,7 +169,7 @@ namespace GeminiMod
                         if (!capturedText.StartsWith("/") || capturedText.StartsWith("/ask_gemini"))
                         {
                             string cleanQuery = capturedText.StartsWith("/") ? capturedText.Substring(capturedText.IndexOf(" ")).Trim() : capturedText;
-                            this.ProcessGeminiQuery(cleanQuery);
+                            Task.Run(() => this.InteractionService.HandleChatQuery(cleanQuery));
                         }
                     }
                 }
@@ -221,165 +197,14 @@ namespace GeminiMod
                 Game1.activeClickableMenu = new PlayerDialogueMenu(this.Helper, targetNpc, this.PlayerPortrait, text =>
                 {
                     if (!string.IsNullOrWhiteSpace(text))
-                        this.ProcessNpcDialogue(targetNpc, text);
+                        Task.Run(() => this.InteractionService.HandleNpcDialogue(targetNpc, text));
                 });
             }
         }
 
         private void ProcessGeminiQuery(string userPrompt)
         {
-            if (string.IsNullOrWhiteSpace(userPrompt)) return;
-
-            bool isLocal = this.Config.Model == "Local Llama (llama.cpp)";
-            if (!isLocal && (string.IsNullOrWhiteSpace(this.Config.ApiKey) || this.Config.ApiKey == "COLOQUE_SUA_CHAVE_AQUI"))
-            {
-                this.Monitor.Log("Você precisa configurar sua API Key no arquivo config.json!", LogLevel.Error);
-                return;
-            }
-
-            string gameContext = this.GetGameContext();
-            
-            if (Context.IsWorldReady)
-            {
-                Game1.chatBox.addMessage($"Você: {userPrompt}", Microsoft.Xna.Framework.Color.Yellow);
-                Game1.chatBox.addMessage("Gemini está pensando...", Microsoft.Xna.Framework.Color.Gray);
-            }
-            else {
-                this.Monitor.Log($"Mensagem enviada (Mundo não carregado): {userPrompt}", LogLevel.Info);
-            }
-            string provider = this.Config.Model == "Local Llama (llama.cpp)" ? "Local Llama" : "Gemini";
-            this.Monitor.Log($"Prompt enviado ao {provider} (Chat): {gameContext}", LogLevel.Debug);
-
-            // Executa a chamada de API de forma assíncrona para não travar o jogo
-            Task.Run(async () =>
-            {
-                try
-                {
-                    string response = await this.AiService.GetAiResponse(gameContext + "\nPergunta do Jogador: " + userPrompt);
-                    
-                    // Remove Markdown (como **texto**) que o chat do jogo não suporta
-                    response = Regex.Replace(response, @"\*+", "");
-
-                    this.MainThreadActions.Enqueue(() =>
-                    {
-                        if (Context.IsWorldReady)
-                            Game1.chatBox.addMessage($"Gemini: {response}", Microsoft.Xna.Framework.Color.LightBlue);
-                        this.Monitor.Log($"Resposta enviada ao chat: {response}", LogLevel.Info);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    string errorMsg = $"Erro Gemini: {ex.Message}";
-                    this.MainThreadActions.Enqueue(() =>
-                    {
-                        if (Context.IsWorldReady)
-                            Game1.chatBox.addMessage(errorMsg, Microsoft.Xna.Framework.Color.Red);
-                        this.Monitor.Log(errorMsg, LogLevel.Error);
-                    });
-                }
-            });
-        }
-
-        private void ProcessNpcDialogue(NPC npc, string playerText)
-        {
-            string gameContext = this.GetGameContext(npc);
-            string profileContent = this.MemoryManager.GetNpcProfile(npc.Name);
-            var memoryList = this.MemoryManager.GetNpcMemory(npc.Name);
-
-            string memoryHistory = string.Join("\n", memoryList.TakeLast(10).Select(m => $"{m.Role}: {m.Content}"));
-
-            Game1.drawObjectDialogue($"{npc.Name} está pensando...");
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    // Constrói o prompt com a Persona do NPC
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"Você é o personagem {npc.Name} de Stardew Valley.");
-                    sb.AppendLine($"### PERFIL (YAML):\n{profileContent}");
-                    sb.AppendLine($"### HISTÓRICO RECENTE:\n{(string.IsNullOrWhiteSpace(memoryHistory) ? "Nenhuma conversa anterior." : memoryHistory)}");
-                    sb.AppendLine($"### CONTEXTO ATUAL:\n{gameContext}");
-                    sb.AppendLine($"\n### O JOGADOR DIZ: \"{playerText}\"");
-
-                    sb.AppendLine("\nResponda OBRIGATORIAMENTE seguindo este formato JSON:");
-                    sb.AppendLine("{");
-                    sb.AppendLine("  \"fala\": \"sua resposta aqui\",");
-                    sb.AppendLine("  \"pontos\": valor_inteiro_entre_-30_e_30");
-                    sb.AppendLine("}");
-                    sb.AppendLine("\nAnalise o sentimento da fala do jogador para com seu personagem:");
-                    sb.AppendLine("- Se for um elogio, presente verbal ou algo que agrada seu perfil: pontos positivos (ex: 10 a 20).");
-                    sb.AppendLine("- Se for um insulto, grosseria ou algo que fere seus valores: pontos negativos (ex: -10 a -20).");
-                    sb.AppendLine("- Se for neutro ou apenas uma pergunta comum: 0.");
-
-                    if (!this.Config.AllowNSFW)
-                        sb.AppendLine("REGRA CRÍTICA: Não gere conteúdo sexualmente explícito, pornográfico ou NSFW.");
-
-                    string finalPrompt = sb.ToString();
-                    string rawResponse = await this.AiService.GetAiResponse(finalPrompt);
-                    
-                    string response = "";
-                    int friendshipChange = 0;
-
-                    try {
-                        // Extrai o JSON da resposta (caso a IA coloque markdown)
-                        var match = Regex.Match(rawResponse, @"\{.*\}", RegexOptions.Singleline);
-                        string jsonPart = match.Success ? match.Value : rawResponse;
-                        var data = JsonConvert.DeserializeAnonymousType(jsonPart, new { fala = "", pontos = 0 });
-                        response = data.fala;
-                        friendshipChange = data.pontos;
-                    } catch {
-                        // Fallback caso a IA falhe no formato JSON
-                        response = rawResponse;
-                    }
-
-                    // Limpa a resposta para o formato do jogo
-                    response = Regex.Replace(response, @"\*+", "");
-
-                    // Adiciona a nova fala à memória e salva no arquivo
-                    memoryList.Add(new MemoryEntry { 
-                        Role = "Jogador", 
-                        Content = playerText, 
-                        GameTime = $"{Game1.dayOfMonth} de {Game1.currentSeason}, {Game1.getTimeOfDayString(Game1.timeOfDay)}" 
-                    });
-
-                    memoryList.Add(new MemoryEntry { 
-                        Role = npc.Name, 
-                        Content = response, 
-                        GameTime = $"{Game1.dayOfMonth} de {Game1.currentSeason}, {Game1.getTimeOfDayString(Game1.timeOfDay)}" 
-                    });
-
-                    this.MainThreadActions.Enqueue(() =>
-                    {
-                        if (Context.IsWorldReady)
-                        {
-                            // Fecha a caixa de "pensando" e abre o diálogo real com retrato
-                            if (friendshipChange != 0)
-                            {
-                                Game1.player.changeFriendship(friendshipChange, npc);
-                                this.Monitor.Log($"Amizade com {npc.Name} alterada em {friendshipChange} pontos.", LogLevel.Info);
-                            }
-
-                            Game1.activeClickableMenu = null;
-                            npc.CurrentDialogue.Push(new Dialogue(npc, null, response));
-                            Game1.drawDialogue(npc);
-                        }
-                    });
-                }
-                catch (Exception ex)
-                {
-                    string errorMsg = ex.Message.Contains("429") 
-                        ? "Limite de uso da API atingido. Aguarde um pouco ou troque o modelo no menu." 
-                        : $"Erro na IA: {ex.Message}";
-
-                    this.Monitor.Log($"Erro ao gerar diálogo para {npc.Name}: {ex.Message}", LogLevel.Error);
-                    this.MainThreadActions.Enqueue(() =>
-                    {
-                        if (Context.IsWorldReady)
-                            Game1.drawObjectDialogue(errorMsg);
-                    });
-                }
-            });
+            Task.Run(() => this.InteractionService.HandleChatQuery(userPrompt));
         }
 
         /// <summary>Evento disparado quando o jogo começa a salvar (ao dormir).</summary>

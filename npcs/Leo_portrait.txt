@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Normal (Cabelo castanho espetado visível)
+- Hood/Winter (Usando capuz vermelho de morango)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso leve (Bochechas rosadas)
+1: Muito Feliz / Rindo (Olhos fechados de alegria)
+2: Triste / Preocupado (Olhar baixo, sobrancelhas caídas)
+3: Surpreso / Curioso (Olhos arregalados)

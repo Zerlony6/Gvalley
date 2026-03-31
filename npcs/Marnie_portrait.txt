@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Vestido verde com gola laranja)
+- Beach (Maiô verde escura)
+- Inverno (Suéter roxo com pontos claros e gola alta)
+
+Mapeamento de Índices:
+0: Neutra / Sorriso leve (Expressão padrão amigável)
+1: Muito Feliz / Alegre (Sorriso aberto, bochechas levemente rosadas)
+2: Triste / Preocupada (Olhar para o lado, sobrancelhas caídas)
+3: Séria / Neutra (Boca em linha reta, olhar frontal atento)
+4: Surpresa / Chocada (Olhos arregalados e exclamação)

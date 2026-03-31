@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Blusa rosa com detalhes em roxo)
+- Beach (Maiô rosa e boné da Joja)
+- Inverno (Jaqueta puffer roxa)
+
+Mapeamento de Índices:
+0: Neutra / Cansada (Olhar padrão séria)
+1: Feliz / Rindo (Olhos fechados e sorriso largo)
+2: Triste / Deprimida (Olhar para baixo, expressão melancólica)
+3: Brava / Irritada (Sobrancelhas franzidas, dentes cerrados)
+4: Neutra (Repetição do frame 0 ou variação leve)

@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Jaqueta marrom clara sobre camisa azul)
+- Beach (Sem camisa / Tronco visível)
+- Inverno (Suéter verde com padrões de malha)
+
+Mapeamento de Índices:
+0: Neutro / Sorriso amigável (Expressão de balconista)
+1: Feliz / Conversando (Boca levemente aberta)
+2: Triste / Preocupado (Olhar caído para baixo)
+3: Bravo / Irritado (Sobrancelhas franzidas, expressão de descontentamento)
+4: Sério / Neutro (Sem o sorriso do frame 0)

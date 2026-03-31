@@ -1,0 +1,9 @@
+Variações de Traje Analisadas:
+- Única (Padrão - Pele verde e túnica vermelha)
+
+Mapeamento de Índices:
+0: Neutro / Sério (Olhar para a esquerda, dentes inferiores visíveis)
+1: Feliz / Falando (Língua para fora, mãos visíveis em posição de conversa)
+2: Triste / Desanimado (Olhar baixo, boca curvada para baixo)
+3: [ESPAÇO VAZIO / ROXO]
+

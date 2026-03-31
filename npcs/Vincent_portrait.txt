@@ -1,0 +1,11 @@
+Variações de Traje Analisadas:
+- Normal (Camiseta listrada amarela e vermelha)
+- Inverno (Casaco marrom e touca xadrez vermelha/marrom)
+
+Mapeamento de Índices:
+0: Neutro / Feliz (Sorriso padrão de criança)
+1: Muito Feliz / Rindo (Olhos fechados, boca aberta de alegria)
+2: Triste / Chateado (Olhar melancólico, boca levemente curvada)
+3: Surpreso / Atento (Olhos arregalados, boca fechada)
+
+Notas: Vincent é o filho mais novo da Jodi. Suas expressões são idênticas em ambas as roupas.

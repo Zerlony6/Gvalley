@@ -1,0 +1,12 @@
+Variações de Traje Analisadas:
+- Normal (Traje de pele selvagem laranja/marrom)
+- Inverno/Folhas (Traje feito de folhas verdes e amarelas)
+- Beach/Spa (Sem camisa / Tronco visível)
+
+Mapeamento de Índices:
+0: Neutro / Gentil (Expressão calma padrão)
+1: Feliz / Satisfeito (Olhos fechados e sorriso largo)
+2: Triste / Solitário (Olhando para o lado/baixo com boca curvada)
+3: Muito Feliz / Rindo (Sorriso aberto mostrando dente)
+4: Surpreso (Olhos arregalados e sobrancelhas altas)
+5: Pensativo / Reservado (Olhar lateral, boca em linha reta)

@@ -1,0 +1,8 @@
+Variações de Traje Analisadas:
+- Única (Manto roxo/preto, chapéu de cowboy com sigla, cabelo roxo)
+
+Mapeamento de Índices:
+0: Neutro / Misterioso (Olhar sério, levemente para baixo/lado)
+1: Poderoso / Surpreso (Olhos brilhando/arregalados, boca levemente aberta)
+
+Notas: O Feiticeiro possui poucas variações, focadas em seu ar místico e autoritário.
