@@ -36,7 +36,7 @@ namespace GeminiMod
             this.Config = this.Helper.ReadConfig<ModConfig>();
             this.AiService = new AiService(this.Config, this.Monitor);
             this.MemoryManager = new MemoryManager(this.Helper, this.Monitor);
-            this.InteractionService = new NpcInteractionService(this.Config, this.Monitor, this.AiService, this.MemoryManager, this.MainThreadActions);
+            this.InteractionService = new NpcInteractionService(this.Config, this.Monitor, this.AiService, this.MemoryManager, this.MainThreadActions, this.Helper);
 
             this.InitializeDirectories();
             this.LoadPlayerPortrait();
@@ -121,6 +121,14 @@ namespace GeminiMod
                 setValue: value => this.Config.LocalLlamaUrl = value
             );
 
+            configMenu.AddKeybind(
+                mod: this.ModManifest,
+                name: () => this.Helper.Translation.Get("config.interact-key.name"),
+                tooltip: () => this.Helper.Translation.Get("config.interact-key.tooltip"),
+                getValue: () => this.Config.InteractKey,
+                setValue: value => this.Config.InteractKey = value
+            );
+
             configMenu.AddSectionTitle(this.ModManifest, () => this.Helper.Translation.Get("config.section-customization.title"));
 
             configMenu.AddBoolOption(
@@ -196,7 +204,7 @@ namespace GeminiMod
                 return;
             }
 
-            if (!e.Button.IsActionButton()) return;
+            if (e.Button != this.Config.InteractKey) return;
 
             // Lógica de detecção de NPC (já existente)
             Vector2 tile = e.Cursor.GrabTile;

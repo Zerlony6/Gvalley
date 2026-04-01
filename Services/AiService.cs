@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 using StardewModdingAPI;
 using GeminiMod.Models;
 
@@ -81,7 +82,7 @@ namespace GeminiMod.Services
             if (!response.IsSuccessStatusCode) throw new Exception($"Google API Erro: {response.StatusCode} - {responseJson}");
 
             dynamic result = JsonConvert.DeserializeObject(responseJson);
-            return result.candidates[0].content.parts[0].text;
+            return SanitizeResponse(result.candidates[0].content.parts[0].text.ToString());
         }
 
         private async Task<string> CallOpenAiCompatibleApi(string endpoint, string apiKey, string prompt, bool isOpenRouter = false)
@@ -112,7 +113,17 @@ namespace GeminiMod.Services
             if (!response.IsSuccessStatusCode) throw new Exception($"API Erro: {response.StatusCode} - {responseJson}");
 
             dynamic result = JsonConvert.DeserializeObject(responseJson);
-            return result.choices[0].message.content;
+            return SanitizeResponse(result.choices[0].message.content.ToString());
+        }
+
+        /// <summary>Remove marcações de Markdown (como ```json) que a IA costuma adicionar.</summary>
+        private string SanitizeResponse(string raw)
+        {
+            if (string.IsNullOrWhiteSpace(raw)) return string.Empty;
+
+            // Remove blocos de código markdown e etiquetas como ```json ou ***json
+            string cleaned = Regex.Replace(raw, @"```\s*[a-zA-Z]*|(\*\*\*)\s*[a-zA-Z]*|(\*\*\*)", "").Trim();
+            return cleaned;
         }
     }
 }

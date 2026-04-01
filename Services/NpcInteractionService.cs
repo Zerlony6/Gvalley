@@ -19,14 +19,16 @@ namespace GeminiMod.Services
         private readonly AiService AiService;
         private readonly MemoryManager MemoryManager;
         private readonly ConcurrentQueue<Action> MainThreadQueue;
+        private readonly IModHelper Helper;
 
-        public NpcInteractionService(ModConfig config, IMonitor monitor, AiService aiService, MemoryManager memoryManager, ConcurrentQueue<Action> mainThreadQueue)
+        public NpcInteractionService(ModConfig config, IMonitor monitor, AiService aiService, MemoryManager memoryManager, ConcurrentQueue<Action> mainThreadQueue, IModHelper helper)
         {
             this.Config = config;
             this.Monitor = monitor;
             this.AiService = aiService;
             this.MemoryManager = memoryManager;
             this.MainThreadQueue = mainThreadQueue;
+            this.Helper = helper;
         }
 
         /// <summary>Processa a interação direta com um NPC (Diálogo com retrato).</summary>
@@ -38,34 +40,25 @@ namespace GeminiMod.Services
             var memoryList = this.MemoryManager.GetNpcMemory(npc.Name);
             string memoryHistory = string.Join("\n", memoryList.TakeLast(10).Select(m => $"{m.Role}: {m.Content}"));
 
-            this.MainThreadQueue.Enqueue(() => Game1.drawObjectDialogue($"{npc.Name} está pensando..."));
+            this.MainThreadQueue.Enqueue(() => Game1.drawObjectDialogue(this.Helper.Translation.Get("prompt.thinking", new { name = npc.Name })));
 
             try
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"Você é o personagem {npc.Name} de Stardew Valley.");
-                sb.AppendLine($"### PERFIL (YAML):\n{profileContent}");
-                sb.AppendLine($"### MAPEAMENTO DE EXPRESSÕES (Portraits):\n{portraitMapping}");
-                sb.AppendLine($"### HISTÓRICO RECENTE:\n{(string.IsNullOrWhiteSpace(memoryHistory) ? "Nenhuma conversa anterior." : memoryHistory)}");
-                sb.AppendLine($"### CONTEXTO ATUAL:\n{gameContext}");
-                sb.AppendLine($"\n### O JOGADOR DIZ: \"{playerText}\"");
-                sb.AppendLine("\nINSTRUÇÃO DE PORTRAIT:");
-                sb.AppendLine("- Escolha o 'portraitIndex' que MELHOR represente sua emoção na fala, baseando-se estritamente no MAPEAMENTO fornecido.");
-                sb.AppendLine("- Se você estiver bravo ou insultado e o mapeamento tiver um índice para 'Bravo' ou 'Sério', use-o.");
-                sb.AppendLine("- Não use índices que não existam na lista acima.");
-                sb.AppendLine("Responda OBRIGATORIAMENTE seguindo este formato JSON:");
-                sb.AppendLine("{");
-                sb.AppendLine("  \"fala\": \"sua resposta aqui\",");
-                sb.AppendLine("  \"pontos\": valor_inteiro (ex: -20 para insultos, 20 para elogios, 0 para neutro),");
-                sb.AppendLine("  \"portraitIndex\": índice_numérico_da_expressão_conforme_mapeamento");
-                sb.AppendLine("}");
-                sb.AppendLine("\nAnalise o sentimento da fala do jogador:");
-                sb.AppendLine("- Elogio/Agradável: pontos positivos (10 a 20).");
-                sb.AppendLine("- Insulto/Grosseiro: pontos negativos (-10 a -20).");
-                sb.AppendLine("- Neutro: 0.");
+                sb.AppendLine(this.Helper.Translation.Get("prompt.role", new { name = npc.Name }));
+                sb.AppendLine(this.Helper.Translation.Get("prompt.language_instruction", new { language = this.Helper.Translation.Locale }));
+                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.profile")}:\n{profileContent}");
+                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.portraits")}:\n{portraitMapping}");
+                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.history")}:\n{(string.IsNullOrWhiteSpace(memoryHistory) ? this.Helper.Translation.Get("prompt.history.none") : memoryHistory)}");
+                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.context")}:\n{gameContext}");
+                sb.AppendLine($"\n### {this.Helper.Translation.Get("prompt.player_says")}: \"{playerText}\"");
+                
+                sb.AppendLine(this.Helper.Translation.Get("prompt.instruction.portrait"));
+                sb.AppendLine(this.Helper.Translation.Get("prompt.instruction.json"));
+                sb.AppendLine(this.Helper.Translation.Get("prompt.instruction.sentiment"));
 
                 if (!this.Config.AllowNSFW)
-                    sb.AppendLine("REGRA CRÍTICA: Não gere conteúdo NSFW.");
+                    sb.AppendLine(this.Helper.Translation.Get("prompt.rule.nsfw"));
 
                 string rawResponse = await this.AiService.GetAiResponse(sb.ToString());
                 
@@ -99,7 +92,7 @@ namespace GeminiMod.Services
                 // Fallback para não travar o diálogo
                 this.MainThreadQueue.Enqueue(() => {
                     if (Game1.activeClickableMenu == null)
-                        npc.CurrentDialogue.Push(new Dialogue(npc, null, "... (estou sem palavras)"));
+                        npc.CurrentDialogue.Push(new Dialogue(npc, null, this.Helper.Translation.Get("prompt.fallback")));
                 });
             }
         }
@@ -108,11 +101,11 @@ namespace GeminiMod.Services
         public async Task HandleChatQuery(string userPrompt)
         {
             string gameContext = this.GetGameContext();
-            this.MainThreadQueue.Enqueue(() => Game1.chatBox.addMessage("Gemini está pensando...", Microsoft.Xna.Framework.Color.Gray));
+            this.MainThreadQueue.Enqueue(() => Game1.chatBox.addMessage(this.Helper.Translation.Get("prompt.thinking", new { name = "AI" }), Microsoft.Xna.Framework.Color.Gray));
 
             try
             {
-                string response = await this.AiService.GetAiResponse(gameContext + "\nPergunta do Jogador: " + userPrompt);
+                string response = await this.AiService.GetAiResponse($"{this.Helper.Translation.Get("prompt.language_instruction", new { language = this.Helper.Translation.Locale })}\n{gameContext}\n{userPrompt}");
                 response = Regex.Replace(response, @"\*+", "");
 
                 this.MainThreadQueue.Enqueue(() =>
@@ -133,12 +126,24 @@ namespace GeminiMod.Services
             {
                 var match = Regex.Match(raw, @"\{.*\}", RegexOptions.Singleline);
                 string json = match.Success ? match.Value : raw;
-                var data = JsonConvert.DeserializeAnonymousType(json, new { fala = "", pontos = 0, portraitIndex = 0 });
-                return (data.fala, data.pontos, data.portraitIndex);
+                
+                // Usamos dynamic para maior flexibilidade caso a IA mude o nome das chaves
+                dynamic data = JsonConvert.DeserializeObject(json);
+                string fala = (string)(data.fala ?? data.Fala ?? "");
+                int pontos = (int)(data.pontos ?? data.Pontos ?? 0);
+                int portrait = (int)(data.portraitIndex ?? data.PortraitIndex ?? 0);
+
+                if (!string.IsNullOrWhiteSpace(fala))
+                    return (fala, pontos, portrait);
+                
+                throw new Exception("JSON incompleto");
             }
             catch
             {
-                return (raw, 0, 0);
+                // Fallback: Remove chaves, aspas e especificamente o rótulo "fala:" (case insensitive)
+                string cleaned = Regex.Replace(raw, @"[\{\}\[\]""]", "");
+                cleaned = Regex.Replace(cleaned, @"(?i)fala\s*:\s*", "").Trim();
+                return (cleaned, 0, 0);
             }
         }
 
@@ -147,16 +152,20 @@ namespace GeminiMod.Services
             if (!Context.IsWorldReady) return "[Mundo não carregado]";
 
             string season = Game1.currentSeason;
-            string weather = Game1.isRaining ? "Chuvoso" : (Game1.isSnowing ? "Nevando" : "Ensolarado");
+            string weatherKey = Game1.isRaining ? "weather.raining" : (Game1.isSnowing ? "weather.snowing" : "weather.sunny");
+            string weather = this.Helper.Translation.Get(weatherKey);
             string time = Game1.getTimeOfDayString(Game1.timeOfDay);
             string location = Game1.currentLocation.Name;
             
-            string context = $"[Contexto: Jogador={Game1.player.Name}, Local={location}, Data={Game1.dayOfMonth} de {season}, Clima={weather}, Hora={time}]";
+            string context = this.Helper.Translation.Get("prompt.context.format", new { 
+                player = Game1.player.Name, location = location, date = Game1.dayOfMonth, 
+                season = season, weather = weather, time = time 
+            });
 
             if (targetNpc != null)
             {
                 int friendship = Game1.player.friendshipData.TryGetValue(targetNpc.Name, out var friendshipData) ? friendshipData.Points : 0;
-                context += $" [Interagindo com NPC: Nome={targetNpc.Name}, Amizade={friendship} pts]";
+                context += " " + this.Helper.Translation.Get("prompt.context.npc_info", new { name = targetNpc.Name, friendship = friendship });
             }
 
             return context;
@@ -165,8 +174,8 @@ namespace GeminiMod.Services
         private void HandleError(Exception ex, string npcName)
         {
             string errorMsg = ex.Message.Contains("429") 
-                ? "Limite de API atingido. Aguarde um pouco." 
-                : $"Erro na IA: {ex.Message}";
+                ? this.Helper.Translation.Get("prompt.error.limit")
+                : this.Helper.Translation.Get("prompt.error.generic", new { error = ex.Message });
 
             this.Monitor.Log($"Erro em {npcName}: {ex.Message}", LogLevel.Error);
             this.MainThreadQueue.Enqueue(() =>

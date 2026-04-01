@@ -1,3 +1,5 @@
+using StardewModdingAPI;
+
 namespace GeminiMod.Models
 {
     public class ModConfig
@@ -18,5 +20,6 @@ namespace GeminiMod.Models
         public bool AllowNSFW { get; set; } = false;
         public float Temperature { get; set; } = 0.7f;
         public int MaxTokens { get; set; } = 250;
+        public SButton InteractKey { get; set; } = SButton.MouseRight;
     }
 }
