@@ -67,6 +67,7 @@ namespace GeminiMod
             {
                 try {
                     this.PlayerPortrait = Texture2D.FromFile(Game1.graphics.GraphicsDevice, playerPngPath);
+                    this.InteractionService.PlayerPortrait = this.PlayerPortrait;
                 } catch (Exception ex) {
                     this.Monitor.Log($"Erro ao carregar portrait/player.png: {ex.Message}", LogLevel.Error);
                 }
@@ -213,6 +214,9 @@ namespace GeminiMod
             if (targetNpc != null)
             {
                 this.Monitor.Log($"Interação detectada com {targetNpc.Name}. Estado do jogo capturado.", LogLevel.Debug);
+                
+                // Sinaliza ao jogo que o jogador conversou com o NPC (Checkmark no menu Social e progresso de Quests)
+                targetNpc.grantConversationFriendship(Game1.player);
                 
                 // Suprime o clique original para evitar que o diálogo padrão do jogo abra
                 this.Helper.Input.Suppress(e.Button);

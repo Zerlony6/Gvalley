@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework.Input;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using GeminiMod.Models;
+using GeminiMod.UI;
 
 namespace GeminiMod.Services
 {
@@ -20,6 +25,13 @@ namespace GeminiMod.Services
         private readonly MemoryManager MemoryManager;
         private readonly ConcurrentQueue<Action> MainThreadQueue;
         private readonly IModHelper Helper;
+        private readonly dynamic PromptSettings;
+
+        /// <summary>Portrait do jogador para ser reutilizado no loop do menu.</summary>
+        public Texture2D PlayerPortrait { get; set; }
+
+        /// <summary>Cache para as propriedades de reflexão usadas no FormatPrompt.</summary>
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> PropertyCache = new();
 
         public NpcInteractionService(ModConfig config, IMonitor monitor, AiService aiService, MemoryManager memoryManager, ConcurrentQueue<Action> mainThreadQueue, IModHelper helper)
         {
@@ -29,6 +41,21 @@ namespace GeminiMod.Services
             this.MemoryManager = memoryManager;
             this.MainThreadQueue = mainThreadQueue;
             this.Helper = helper;
+
+            const string fileName = "prompt_settings.json";
+            string fullPath = Path.Combine(helper.DirectoryPath, fileName);
+
+            if (!File.Exists(fullPath))
+            {
+                this.Monitor.Log($"ERRO CRÍTICO: O arquivo {fileName} deve estar na RAIZ do mod (ao lado do manifest.json). Caminho esperado: {fullPath}", LogLevel.Error);
+            }
+
+            this.PromptSettings = helper.Data.ReadJsonFile<dynamic>(fileName);
+            
+            if (this.PromptSettings == null || this.PromptSettings.prompts == null)
+            {
+                this.Monitor.Log($"Arquivo {fileName} está CORROMPIDO ou com erro de sintaxe JSON!", LogLevel.Error);
+            }
         }
 
         /// <summary>Processa a interação direta com um NPC (Diálogo com retrato).</summary>
@@ -40,25 +67,28 @@ namespace GeminiMod.Services
             var memoryList = this.MemoryManager.GetNpcMemory(npc.Name);
             string memoryHistory = string.Join("\n", memoryList.TakeLast(10).Select(m => $"{m.Role}: {m.Content}"));
 
-            this.MainThreadQueue.Enqueue(() => Game1.drawObjectDialogue(this.Helper.Translation.Get("prompt.thinking", new { name = npc.Name })));
+            if (this.PromptSettings == null || this.PromptSettings.prompts == null)
+            {
+                this.Monitor.Log("Não é possível iniciar o diálogo: PromptSettings não carregado.", LogLevel.Error);
+                return;
+            }
+
+            this.MainThreadQueue.Enqueue(() => Game1.drawObjectDialogue(this.FormatPrompt((string)this.PromptSettings.prompts.thinking, new { name = npc.Name })));
 
             try
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine(this.Helper.Translation.Get("prompt.role", new { name = npc.Name }));
-                sb.AppendLine(this.Helper.Translation.Get("prompt.language_instruction", new { language = this.Helper.Translation.Locale }));
-                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.profile")}:\n{profileContent}");
-                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.portraits")}:\n{portraitMapping}");
-                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.history")}:\n{(string.IsNullOrWhiteSpace(memoryHistory) ? this.Helper.Translation.Get("prompt.history.none") : memoryHistory)}");
-                sb.AppendLine($"### {this.Helper.Translation.Get("prompt.context")}:\n{gameContext}");
-                sb.AppendLine($"\n### {this.Helper.Translation.Get("prompt.player_says")}: \"{playerText}\"");
-                
-                sb.AppendLine(this.Helper.Translation.Get("prompt.instruction.portrait"));
-                sb.AppendLine(this.Helper.Translation.Get("prompt.instruction.json"));
-                sb.AppendLine(this.Helper.Translation.Get("prompt.instruction.sentiment"));
+                sb.AppendLine(this.FormatPrompt((string)this.PromptSettings.prompts.role, new { name = npc.Name }))
+                  .AppendLine(this.FormatPrompt((string)this.PromptSettings.prompts.language_instruction, new { language = this.Helper.Translation.Locale }));
+                sb.AppendLine($"### {this.PromptSettings.prompts.profile}:\n{profileContent}");
+                sb.AppendLine($"### {this.PromptSettings.prompts.portraits}:\n{portraitMapping}");
+                sb.AppendLine($"### {this.PromptSettings.prompts.history}:\n{(string.IsNullOrWhiteSpace(memoryHistory) ? this.PromptSettings.prompts.history_none : memoryHistory)}");
+                sb.AppendLine($"### {this.PromptSettings.prompts.instructions}");
+                sb.AppendLine($"### {this.PromptSettings.prompts.context}: {gameContext}");
+                sb.AppendLine($"\n### {this.PromptSettings.prompts.player_says}: \"{playerText}\"");
 
                 if (!this.Config.AllowNSFW)
-                    sb.AppendLine(this.Helper.Translation.Get("prompt.rule.nsfw"));
+                    sb.AppendLine((string)this.PromptSettings.prompts.rule_nsfw);
 
                 string rawResponse = await this.AiService.GetAiResponse(sb.ToString());
                 
@@ -72,6 +102,14 @@ namespace GeminiMod.Services
 
                 this.MainThreadQueue.Enqueue(() =>
                 {
+                    // Verifica se o jogador fechou a caixa de "pensando" ou abriu outro menu enquanto a IA processava
+                    // Se o menu atual não for uma DialogueBox, o jogador provavelmente apertou ESC ou saiu de perto.
+                    if (!(Game1.activeClickableMenu is StardewValley.Menus.DialogueBox))
+                    {
+                        this.Monitor.Log($"Interação com {npc.Name} cancelada pelo usuário durante o processamento da IA.", LogLevel.Debug);
+                        return;
+                    }
+
                     if (Context.IsWorldReady)
                     {
                         if (friendshipChange != 0)
@@ -79,9 +117,38 @@ namespace GeminiMod.Services
                             Game1.player.changeFriendship(friendshipChange, npc);
                             this.Monitor.Log($"Amizade com {npc.Name} alterada: {friendshipChange} pts.", LogLevel.Debug);
                         }
+                        
+                        var dialogueResponse = new Dialogue(npc, null, $"${portraitIndex}{response}");
 
-                        Game1.activeClickableMenu = null;
-                        npc.CurrentDialogue.Push(new Dialogue(npc, null, $"${portraitIndex}{response}"));
+                        // Define a ação de retorno: abrir o menu de texto novamente após o diálogo fechar
+                        dialogueResponse.onFinish = () =>
+                        {
+                            // Verifica se o encerramento foi forçado pelo ESC. 
+                            // Checamos o estado atual e o frame anterior (oldKBState) para não perder o momento do clique.
+                            bool escapePressed = Game1.input.GetKeyboardState().IsKeyDown(Keys.Escape) || 
+                                               Game1.oldKBState.IsKeyDown(Keys.Escape);
+                            
+                            // Se o jogador se afastou muito (mais de 3 tiles), encerramos o loop por movimento.
+                            bool playerMovedAway = npc != null && (Game1.player.Tile - npc.Tile).Length() > 3f;
+
+                            if (escapePressed || playerMovedAway)
+                                return;
+
+                            this.MainThreadQueue.Enqueue(() =>
+                            {
+                                // Só reabre se o jogador estiver livre e nenhum outro menu (como inventário) tiver sido aberto.
+                                if (!Context.IsPlayerFree || (Game1.activeClickableMenu != null && !(Game1.activeClickableMenu is StardewValley.Menus.DialogueBox)))
+                                    return;
+
+                                Game1.activeClickableMenu = new PlayerDialogueMenu(this.Helper, npc, this.PlayerPortrait, nextText =>
+                                {
+                                    if (!string.IsNullOrWhiteSpace(nextText))
+                                        Task.Run(() => this.HandleNpcDialogue(npc, nextText));
+                                });
+                            });
+                        };
+
+                        npc.CurrentDialogue.Push(dialogueResponse);
                         Game1.drawDialogue(npc);
                     }
                 });
@@ -92,20 +159,43 @@ namespace GeminiMod.Services
                 // Fallback para não travar o diálogo
                 this.MainThreadQueue.Enqueue(() => {
                     if (Game1.activeClickableMenu == null)
-                        npc.CurrentDialogue.Push(new Dialogue(npc, null, this.Helper.Translation.Get("prompt.fallback")));
+                        npc.CurrentDialogue.Push(new Dialogue(npc, null, (string)this.PromptSettings.prompts.fallback));
                 });
             }
+        }
+
+        private string FormatPrompt(string template, object tokens)
+        {
+            if (string.IsNullOrEmpty(template) || tokens == null) return template ?? "";
+
+            string output = template;
+            Type type = tokens.GetType();
+
+            // Obtém as propriedades do cache ou as adiciona se não existirem
+            if (!PropertyCache.TryGetValue(type, out PropertyInfo[] props))
+            {
+                props = type.GetProperties();
+                PropertyCache[type] = props;
+            }
+
+            foreach (var prop in props)
+            {
+                output = output.Replace("{{" + prop.Name + "}}", prop.GetValue(tokens)?.ToString() ?? "");
+            }
+            return output;
         }
 
         /// <summary>Processa perguntas gerais via chat (sem retrato).</summary>
         public async Task HandleChatQuery(string userPrompt)
         {
+            if (this.PromptSettings == null) return;
             string gameContext = this.GetGameContext();
-            this.MainThreadQueue.Enqueue(() => Game1.chatBox.addMessage(this.Helper.Translation.Get("prompt.thinking", new { name = "AI" }), Microsoft.Xna.Framework.Color.Gray));
+            this.MainThreadQueue.Enqueue(() => Game1.chatBox.addMessage(this.FormatPrompt((string)this.PromptSettings.prompts.thinking, new { name = "AI" }), Microsoft.Xna.Framework.Color.Gray));
 
             try
             {
-                string response = await this.AiService.GetAiResponse($"{this.Helper.Translation.Get("prompt.language_instruction", new { language = this.Helper.Translation.Locale })}\n{gameContext}\n{userPrompt}");
+                string langInstr = this.FormatPrompt((string)this.PromptSettings.prompts.language_instruction, new { language = this.Helper.Translation.Locale });
+                string response = await this.AiService.GetAiResponse($"{langInstr}\n{gameContext}\n{userPrompt}");
                 response = Regex.Replace(response, @"\*+", "");
 
                 this.MainThreadQueue.Enqueue(() =>
@@ -116,7 +206,8 @@ namespace GeminiMod.Services
             }
             catch (Exception ex)
             {
-                this.MainThreadQueue.Enqueue(() => Game1.chatBox.addMessage($"Erro: {ex.Message}", Microsoft.Xna.Framework.Color.Red));
+                string errorMsg = this.Helper.Translation.Get("error.generic", new { error = ex.Message });
+                this.MainThreadQueue.Enqueue(() => Game1.chatBox.addMessage(errorMsg, Microsoft.Xna.Framework.Color.Red));
             }
         }
 
@@ -124,58 +215,52 @@ namespace GeminiMod.Services
         {
             try
             {
-                var match = Regex.Match(raw, @"\{.*\}", RegexOptions.Singleline);
-                string json = match.Success ? match.Value : raw;
+                string json = Regex.Match(raw, @"\{.*\}", RegexOptions.Singleline).Value;
+                var data = JsonConvert.DeserializeObject<dynamic>(!string.IsNullOrEmpty(json) ? json : raw);
                 
-                // Usamos dynamic para maior flexibilidade caso a IA mude o nome das chaves
-                dynamic data = JsonConvert.DeserializeObject(json);
-                string fala = (string)(data.fala ?? data.Fala ?? "");
-                int pontos = (int)(data.pontos ?? data.Pontos ?? 0);
-                int portrait = (int)(data.portraitIndex ?? data.PortraitIndex ?? 0);
-
-                if (!string.IsNullOrWhiteSpace(fala))
-                    return (fala, pontos, portrait);
-                
-                throw new Exception("JSON incompleto");
+                return (
+                    (string)(data.fala ?? data.Fala ?? raw),
+                    (int)(data.pontos ?? data.Pontos ?? 0),
+                    (int)(data.portraitIndex ?? data.PortraitIndex ?? 0)
+                );
             }
             catch
             {
-                // Fallback: Remove chaves, aspas e especificamente o rótulo "fala:" (case insensitive)
-                string cleaned = Regex.Replace(raw, @"[\{\}\[\]""]", "");
-                cleaned = Regex.Replace(cleaned, @"(?i)fala\s*:\s*", "").Trim();
-                return (cleaned, 0, 0);
+                return (Regex.Replace(raw, @"[\{\}\[\]""]|(?i)fala\s*:\s*", "").Trim(), 0, 0);
             }
         }
 
         private string GetGameContext(NPC targetNpc = null)
         {
+            if (this.PromptSettings == null) return "[Erro: Configurações de Prompt Ausentes]";
             if (!Context.IsWorldReady) return "[Mundo não carregado]";
 
             string season = Game1.currentSeason;
-            string weatherKey = Game1.isRaining ? "weather.raining" : (Game1.isSnowing ? "weather.snowing" : "weather.sunny");
-            string weather = this.Helper.Translation.Get(weatherKey);
+            
+            // Lógica expandida para detecção de clima
+            string weatherKey = "sunny";
+            if (Utility.isFestivalDay(Game1.dayOfMonth, Game1.season)) weatherKey = "festival";
+            else if (Game1.isGreenRain) weatherKey = "green_rain";
+            else if (Game1.isLightning) weatherKey = "stormy";
+            else if (Game1.isRaining) weatherKey = "raining";
+            else if (Game1.isSnowing) weatherKey = "snowing";
+            else if (Game1.isDebrisWeather) weatherKey = season == "spring" ? "windy_spring" : "windy_fall";
+
+            string weather = (string)this.PromptSettings.weather[weatherKey];
             string time = Game1.getTimeOfDayString(Game1.timeOfDay);
             string location = Game1.currentLocation.Name;
+            int friendship = targetNpc != null ? (Game1.player.friendshipData.TryGetValue(targetNpc.Name, out var f) ? f.Points : 0) : 0;
             
-            string context = this.Helper.Translation.Get("prompt.context.format", new { 
+            return this.FormatPrompt((string)this.PromptSettings.prompts.full_context, new { 
                 player = Game1.player.Name, location = location, date = Game1.dayOfMonth, 
-                season = season, weather = weather, time = time 
+                season = season, weather = weather, time = time, name = targetNpc?.Name ?? "N/A", friendship = friendship
             });
-
-            if (targetNpc != null)
-            {
-                int friendship = Game1.player.friendshipData.TryGetValue(targetNpc.Name, out var friendshipData) ? friendshipData.Points : 0;
-                context += " " + this.Helper.Translation.Get("prompt.context.npc_info", new { name = targetNpc.Name, friendship = friendship });
-            }
-
-            return context;
         }
 
         private void HandleError(Exception ex, string npcName)
         {
-            string errorMsg = ex.Message.Contains("429") 
-                ? this.Helper.Translation.Get("prompt.error.limit")
-                : this.Helper.Translation.Get("prompt.error.generic", new { error = ex.Message });
+            string errorKey = ex.Message.Contains("429") ? "error.limit" : "error.generic";
+            string errorMsg = this.Helper.Translation.Get(errorKey, new { error = ex.Message });
 
             this.Monitor.Log($"Erro em {npcName}: {ex.Message}", LogLevel.Error);
             this.MainThreadQueue.Enqueue(() =>

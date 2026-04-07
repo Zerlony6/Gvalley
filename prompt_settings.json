@@ -1,0 +1,27 @@
+{
+    "prompts": {
+        "thinking": "{{name}} está pensando...",
+        "fallback": "... (estou sem palavras)",
+        "role": "Você é o personagem {{name}} de Stardew Valley.",
+        "language_instruction": "IMPORTANTE: Você DEVE responder no idioma: {{language}}",
+        "profile": "PERFIL (YAML)",
+        "portraits": "MAPEAMENTO DE EXPRESSÕES (Retratos)",
+        "history": "HISTÓRICO RECENTE",
+        "history_none": "Nenhuma conversa anterior.",
+        "context": "CONTEXTO ATUAL",
+        "player_says": "O JOGADOR DIZ",
+        "instructions": "INSTRUÇÕES:\n1. RETRATO: Escolha 'portraitIndex' do MAPEAMENTO.\n2. SENTIMENTO: Analise o jogador (Elogio: 10-20, Insulto: -10 a -20, Neutro: 0).\n3. FORMATO: Responda APENAS em JSON: {\"fala\": \"...\", \"pontos\": int, \"portraitIndex\": int}",
+        "rule_nsfw": "REGRA CRÍTICA: Não gere conteúdo NSFW.",
+        "full_context": "[Jogador: {{player}} | Loc: {{location}} | Data: {{date}} de {{season}} | Clima: {{weather}} | Hora: {{time}} | Alvo: {{name}} ({{friendship}} pts)]"
+    },
+    "weather": {
+        "sunny": "Ensolarado",
+        "raining": "Chovendo",
+        "snowing": "Nevando",
+        "green_rain": "Chuva Verde (Chuva e névoa verde misteriosa)",
+        "windy_spring": "Primavera Ventosa (Pétalas voando pelo ar)",
+        "windy_fall": "Outono Ventoso (Folhas voando por toda parte)",
+        "stormy": "Tempestuoso (Chuva forte com raios)",
+        "festival": "Festival (A cidade está celebrando um evento especial)"
+    }
+}
