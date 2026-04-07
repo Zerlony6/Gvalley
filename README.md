@@ -33,11 +33,18 @@ O arquivo `prompt_settings.json` na raiz do mod permite traduzir as instruções
 }
 ```
 
-## 📋 Requisitos
+## 🔑 Como obter sua API Key
+
+Para que o mod funcione, você precisa de uma chave gratuita do Google Gemini:
+1. Acesse o [Google AI Studio](https://aistudio.google.com/).
+2. Faça login com sua conta Google.
+3. Clique em **"Get API key"**.
+4. Copie a chave e cole no seu arquivo `config.json` (gerado após abrir o jogo pela primeira vez com o mod).
+
+##  Requisitos
 
 *   Stardew Valley 1.6+
 *   SMAPI 4.0.0+
-*   Uma chave de API do Google Gemini (configurada no `config.json`)
 
 ## 🚀 Instalação
 
@@ -46,6 +53,12 @@ O arquivo `prompt_settings.json` na raiz do mod permite traduzir as instruções
 3.  Execute o jogo uma vez para gerar o arquivo `config.json`.
 4.  Abra o `config.json` e insira sua `ApiKey`.
 5.  Divirta-se conversando!
+
+## 🛠️ Solução de Problemas (FAQ)
+
+*   **O NPC não responde:** Verifique se sua chave de API está correta no `config.json` e se você tem conexão com a internet.
+*   **Erro de Limite (Quota):** O plano gratuito do Gemini tem limites de requisições por minuto. Se muitas mensagens forem enviadas seguidas, o NPC pode ficar "sem palavras" por um momento.
+*   **O jogo trava ao abrir o menu:** Certifique-se de que o arquivo `prompt_settings.json` está na raiz da pasta do mod, e não dentro de `i18n`.
 
 ---
 *Desenvolvido por **Zerlony**. Torne sua vida no campo muito mais viva com o poder da IA.*
