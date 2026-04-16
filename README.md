@@ -36,9 +36,9 @@ O arquivo `prompt_settings.json` na raiz do mod permite traduzir as instruções
 
 ## 🔑 Como obter sua API Key
 
-Para que o mod funcione, você precisa de uma chave gratuita do Google Gemini:
-1. Acesse o [Google AI Studio](https://aistudio.google.com/).
-2. Faça login com sua conta Google.
+Para que o mod funcione, você precisa de uma chave, se procura um modelo gratiuto recomendo usar o modelodo Google Gemini:
+1. Acesse o [Google AI Studio](https://aistudio.google.com/) ou [OpenAI](https://platform.openai.com/), [OpenRouter](https://openrouter.ai/).
+2. Faça login com sua conta.
 3. Clique em **"Get API key"**.
 4. Copie a chave e cole no seu arquivo `config.json` (gerado após abrir o jogo pela primeira vez com o mod).
 
