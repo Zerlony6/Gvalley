@@ -1,9 +1,9 @@
 {
-  "Name": "Gemini Dialogue Mod",
+  "Name": "G-Valley: Dynamic Dialogues",
   "Author": "Zerlony",
   "Version": "1.0.0",
-  "Description": "Permite conversar com o Gemini através do chat do jogo.",
-  "UniqueID": "Zerlony.GeminiMod",
+  "Description": "Esta modificação utiliza llm para interpretar os npcs e criar dialogos unicos",
+  "UniqueID": "Zerlony.GValley",
   "EntryDll": "GeminiMod.dll",
   "MinimumApiVersion": "4.0.0",
   "UpdateKeys": []

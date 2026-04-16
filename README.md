@@ -1,6 +1,6 @@
-# Gvalley - Gemini Dialogue Mod
+# G-Valley: Dynamic Dialogues
 
-**Gvalley** é uma expansão imersiva para *Stardew Valley* que utiliza o poder da Inteligência Artificial (Google Gemini) para dar vida aos habitantes da Vila Pelicanos. Esqueça os diálogos repetitivos: agora, cada conversa é única, consciente do contexto e fiel à personalidade de cada NPC.
+**G-Valley** é uma expansão imersiva para *Stardew Valley* que utiliza o poder da Inteligência Artificial (Google Gemini) para dar vida aos habitantes da Vila Pelicanos. Esqueça os diálogos repetitivos: agora, cada conversa é única, consciente do contexto e fiel à personalidade de cada NPC.
 
 ## 🌟 Destaques
 

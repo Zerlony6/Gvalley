@@ -201,7 +201,7 @@ namespace GeminiMod.Services
                 this.MainThreadQueue.Enqueue(() =>
                 {
                     if (Context.IsWorldReady)
-                        Game1.chatBox.addMessage($"Gemini: {response}", Microsoft.Xna.Framework.Color.LightBlue);
+                        Game1.chatBox.addMessage($"G-Valley: {response}", Microsoft.Xna.Framework.Color.LightBlue);
                 });
             }
             catch (Exception ex)
