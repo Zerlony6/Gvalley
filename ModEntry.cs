@@ -13,11 +13,11 @@ using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using GeminiMod.Models;
-using GeminiMod.Services;
-using GeminiMod.UI;
+using GValley.Models;
+using GValley.Services;
+using GValley.UI;
 
-namespace GeminiMod
+namespace GValley
 {
     public class ModEntry : Mod
     {

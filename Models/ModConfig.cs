@@ -1,6 +1,6 @@
 using StardewModdingAPI;
 
-namespace GeminiMod.Models
+namespace GValley.Models
 {
     public class ModConfig
     {

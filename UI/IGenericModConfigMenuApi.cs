@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 
-namespace GeminiMod.UI
+namespace GValley.UI
 {
     /// <summary>A interface para a API do Generic Mod Config Menu.</summary>
     public interface IGenericModConfigMenuApi

@@ -4,9 +4,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using StardewModdingAPI;
-using GeminiMod.Models;
+using GValley.Models;
 
-namespace GeminiMod.Services
+namespace GValley.Services
 {
     public class MemoryManager
     {

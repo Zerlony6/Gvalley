@@ -1,4 +1,4 @@
-namespace GeminiMod.Models
+namespace GValley.Models
 {
     // Classes para Gemini
     public class GeminiResponse

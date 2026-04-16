@@ -12,10 +12,10 @@ using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
-using GeminiMod.Models;
-using GeminiMod.UI;
+using GValley.Models;
+using GValley.UI;
 
-namespace GeminiMod.Services
+namespace GValley.Services
 {
     public class NpcInteractionService
     {

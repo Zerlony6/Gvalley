@@ -1,4 +1,4 @@
-namespace GeminiMod.Models
+namespace GValley.Models
 {
     public class MemoryEntry
     {

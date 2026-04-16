@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace GeminiMod.UI
+namespace GValley.UI
 {
     public class PlayerDialogueMenu : StardewValley.Menus.IClickableMenu
     {

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using StardewModdingAPI;
-using GeminiMod.Models;
+using GValley.Models;
 
-namespace GeminiMod.Services
+namespace GValley.Services
 {
     public class AiService
     {
