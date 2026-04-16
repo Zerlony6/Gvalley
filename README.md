@@ -1,10 +1,11 @@
 # G-Valley: Dynamic Dialogues
 
-**G-Valley** é uma expansão imersiva para *Stardew Valley* que utiliza o poder da Inteligência Artificial (Google Gemini) para dar vida aos habitantes da Vila Pelicanos. Esqueça os diálogos repetitivos: agora, cada conversa é única, consciente do contexto e fiel à personalidade de cada NPC.
+**G-Valley** é uma expansão imersiva para *Stardew Valley* que utiliza o poder da Inteligência Artificial para dar vida aos habitantes da Vila Pelicanos. Esqueça os diálogos repetitivos: agora, cada conversa é única, consciente do contexto e fiel à personalidade de cada NPC.
 
 ## 🌟 Destaques
 
 *   **Diálogos Dinâmicos:** Converse naturalmente com os NPCs através de uma caixa de texto personalizada.
+*   **Multi-Modelo:** Suporte para **Google Gemini**, **OpenAI (GPT-4o)**, **OpenRouter** (Claude, Llama 3, etc.) ou modelos locais via **llama.cpp/Ollama**.
 *   **Consciência Contextual:** Os NPCs sabem o seu nome, o clima atual, a estação, onde você está e o nível de amizade entre vocês. Eles podem comentar sobre a chuva verde no verão ou sobre um festival que está acontecendo.
 *   **Memória de Curto Prazo:** O mod mantém um histórico das últimas interações, permitindo que os NPCs se lembrem do fluxo da conversa atual.
 *   **Sistema de Expressões (Portraits):** A IA escolhe a expressão facial correta do NPC (feliz, triste, bravo, etc.) com base no tom da resposta.
@@ -13,7 +14,7 @@
 
 ## 🛠️ Como Funciona
 
-O mod intercepta as interações e envia um "pacote de contexto" para o Gemini Pro, incluindo:
+O mod intercepta as interações e envia um "pacote de contexto" para a IA selecionada, incluindo:
 1.  **Perfil do NPC:** História, motivações e segredos.
 2.  **Estado do Mundo:** Data, hora, clima e localização.
 3.  **Histórico:** O que foi dito anteriormente.
